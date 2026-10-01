@@ -1,96 +1,98 @@
-# Exercise 02 -- Assign the Issue to Copilot
+# 실습 02 -- Copilot에 이슈 할당하기
 
-## Goal
+## 목표
 
-Delegate your issue to Copilot and observe it working in real time, then use Copilot Chat and the Copilot CLI to explore the codebase while you wait.
+작성한 이슈를 Copilot에 위임하고 작업 과정을 실시간으로 관찰합니다. 작업이 진행되는 동안 Copilot Chat과 Copilot CLI로 코드베이스를 살펴봅니다.
 
-## The Mindset Shift
+## 일하는 방식의 전환
 
-In the old workflow, after writing an issue you would open your IDE and start coding. In the AI-native workflow, you've just delegated this task to a team member. Your job is now to **guide and review**, not type every line yourself.
+기존 워크플로에서는 이슈를 작성한 뒤 IDE를 열고 직접 코딩을 시작했습니다. AI 네이티브 워크플로에서는 이 작업을 팀원에게 위임한 셈입니다. 이제 여러분의 역할은 모든 코드를 직접 입력하는 것이 아니라 **방향을 제시하고 검토하는 것**입니다.
 
-Copilot spins up a secure, isolated GitHub Actions VM to do this work. It cannot touch your production environment, cannot merge without your approval, and keeps a full session log so you can see exactly what it did and why.
+Copilot은 이 작업을 수행하기 위해 안전하게 격리된 GitHub Actions 가상 머신(VM)을 시작합니다. 운영 환경에 접근할 수 없고, 여러분의 승인 없이 병합할 수 없습니다. 또한 전체 세션 로그를 남기므로 무엇을 왜 했는지 정확히 확인할 수 있습니다.
 
 ---
 
-## Your Task
+## 실습
 
-### Step 1 -- Assign the Issue
+### 1단계 -- 이슈 할당하기
 
-1. Open the issue you wrote in Exercise 01.
-2. In the **Assignees** panel on the right, click the gear icon.
-3. Search for and select **Copilot** from the list.
-4. Save the assignment.
+1. 실습 01에서 작성한 이슈를 엽니다.
+2. 오른쪽 **Assignees** 패널에서 톱니바퀴 아이콘을 클릭합니다.
+3. 목록에서 **Copilot**을 검색해 선택합니다.
+4. 담당자 설정을 저장합니다.
 
-You should see Copilot appear in the assignees list and a comment appear on the issue indicating it has picked up the work.
+담당자 목록에 Copilot이 표시되고, 작업을 시작했다는 댓글이 이슈에 달리는지 확인합니다.
 
-### Step 2 -- Open the Copilot App
+### 2단계 -- Copilot App 열기
 
-1. Open the **GitHub Copilot App** on your desktop.
-2. Navigate to the **My Work** view.
-3. Find the active session for your issue.
+1. 데스크톱에서 **GitHub Copilot App**을 엽니다.
+2. **My Work** 화면으로 이동합니다.
+3. 자신의 이슈에 해당하는 활성 세션을 찾습니다.
 
-### Step 3 -- Observe
+### 3단계 -- 작업 과정 관찰하기
 
-Watch Copilot work. You will see it:
+Copilot이 작업하는 모습을 살펴보세요. 다음 과정을 확인할 수 있습니다.
 
-- Clone the repository into a secure sandbox
-- Explore the codebase to understand the existing structure
-- Make code changes
-- Open a draft PR with a session log explaining its decisions
+- 안전한 샌드박스에 저장소 복제
+- 기존 구조를 이해하기 위한 코드베이스 탐색
+- 코드 변경
+- 의사 결정 과정을 설명하는 세션 로그와 함께 초안 PR 생성
 
-Do not intervene yet. Just observe.
+아직 개입하지 말고 관찰만 해 보세요.
 
-### Step 4 -- Explore with Copilot Chat
+### 4단계 -- Copilot Chat으로 살펴보기
 
-While the agent session runs in the background, open **Copilot Chat** in your editor (VS Code, JetBrains, or the github.com chat panel) against your local clone of `starter-app`. Try asking it:
+에이전트 세션이 백그라운드에서 실행되는 동안 로컬에 복제한 `starter-app`을 대상으로 **Copilot Chat**을 엽니다. VS Code, JetBrains 또는 github.com의 채팅 패널을 이용할 수 있습니다. 다음과 같이 질문해 보세요.
 
-- `@workspace explain how app.py stores and loads tasks`
-- `@workspace what would I need to change to add a new field to a task?`
-- `/explain` on the `list` command in `app.py`
+- `@workspace app.py에서 작업을 저장하고 불러오는 방식을 설명해 주세요`
+- `@workspace 작업에 새 필드를 추가하려면 무엇을 변경해야 하나요?`
+- `app.py`의 `list` 명령 코드를 선택하고 `/explain` 실행
 
-This is a different mode of working with Copilot: instead of delegating a whole task, you are having a conversation to build understanding. Notice how Chat answers are grounded in the actual files in your workspace, the same codebase the agent is currently editing in its sandbox.
+이것은 Copilot과 협업하는 또 다른 방식입니다. 작업 전체를 위임하는 대신 대화를 통해 이해를 넓힙니다. Chat의 답변이 워크스페이스의 실제 파일을 근거로 하는지 살펴보세요. 에이전트도 현재 샌드박스에서 같은 코드베이스를 수정하고 있습니다.
 
-### Step 5 -- Explore with the Copilot CLI
+### 5단계 -- Copilot CLI로 살펴보기
 
-If you have the [GitHub Copilot CLI](https://docs.github.com/en/copilot/how-tos/set-up/install-copilot-cli) installed, try it from your terminal in the repo root:
+[GitHub Copilot CLI](https://docs.github.com/en/copilot/how-tos/set-up/install-copilot-cli)가 설치되어 있다면 저장소 루트에서 터미널을 열고 다음 명령을 실행해 보세요.
 
 ```bash
 gh copilot suggest "run the starter-app tests and show a summary of failures"
 gh copilot explain "python app.py stats"
 ```
 
+첫 번째 명령은 "starter-app 테스트를 실행하고 실패 내용을 요약해 주세요"라는 요청을 전달하고, 두 번째 명령은 `python app.py stats`의 동작을 설명하도록 요청합니다.
+
 ---
 
-## Go Deeper (Optional): Scaling Up, From One Issue to a Fleet
+## 심화 학습(선택): 하나의 이슈에서 여러 에이전트로 확장하기
 
-> ⚠️ **Token cost warning:** The two exercises below are heavier on AI usage than the one-issue, one-agent loop you just ran. `/fleet` and `/squad` both spin up **multiple** agent sessions instead of one. If you're on a personal/paid plan and don't have a real project in mind to justify it, it's fine to just read the linked exercises and skip running them live.
+> ⚠️ **토큰 비용 주의:** 아래 두 실습은 앞서 수행한 이슈 하나·에이전트 하나의 작업 흐름보다 AI 사용량이 많습니다. `/fleet`과 `/squad`는 모두 하나가 아닌 **여러 개의** 에이전트 세션을 실행합니다. 개인용/유료 요금제를 사용 중이고 추가 사용량을 감수할 만한 실제 프로젝트가 없다면, 링크된 실습을 읽기만 하고 직접 실행은 건너뛰어도 좋습니다.
 
-So far you've done the smallest possible unit of AI-native work: one issue, one agent, one PR. That's the right place to start, but it doesn't scale to a real sprint, where you might have ten issues in flight. This is where `/fleet` and `/squad` come in, two different answers to the same question: *how do I go from one developer directing one agent, to a whole team directing many agents at once?*
+지금까지 AI 네이티브 작업의 가장 작은 단위인 이슈 하나, 에이전트 하나, PR 하나를 경험했습니다. 올바른 출발점이지만, 이슈 열 개가 동시에 진행될 수도 있는 실제 스프린트에 그대로 적용하기는 어렵습니다. 이때 `/fleet`과 `/squad`를 활용할 수 있습니다. 두 방식은 같은 질문에 서로 다른 답을 제시합니다. *한 개발자가 에이전트 하나를 지휘하는 방식에서 팀 전체가 여러 에이전트를 동시에 지휘하는 방식으로 어떻게 확장할 수 있을까요?*
 
-### `/fleet`: parallel, stateless execution
+### `/fleet`: 상태를 유지하지 않는 병렬 실행
 
-`/fleet` is a Copilot CLI command built for parallel, stateless execution. You give it one objective, and an orchestrator agent breaks that objective into independent sub-tasks, checks which ones are unblocked, and runs them in parallel.
+`/fleet`은 상태를 유지하지 않는 병렬 실행을 위한 Copilot CLI 명령입니다. 목표 하나를 제시하면 오케스트레이터 에이전트가 이를 독립적인 하위 작업으로 나누고, 선행 작업을 기다리지 않아도 되는 작업을 확인해 병렬로 실행합니다.
 
-Think of it like this: if today's single Copilot agent is one developer picking up one issue, `/fleet` is like assigning ten related issues at once and having ten short-lived contractors work them simultaneously, then handing back the combined result.
+이렇게 생각해 보세요. 단일 Copilot 에이전트가 이슈 하나를 맡는 개발자라면, `/fleet`은 관련 이슈 열 개를 한꺼번에 할당해 단기 계약자 열 명이 동시에 작업하게 한 뒤 통합된 결과를 받는 것과 같습니다.
 
-**Try it step by step:** [Exercise 02A - Parallel Execution with `/fleet`](../02a-fleet-mode/README.md) walks through installing the Copilot CLI, authenticating, and running your own `/fleet` prompt.
+**단계별로 실습하기:** [실습 02A - `/fleet`으로 병렬 실행하기](../02a-fleet-mode/README.md)에서는 Copilot CLI 설치, 인증, `/fleet` 프롬프트 실행까지 차례로 진행합니다.
 
-### `/squad`: a persistent team of agents
+### `/squad`: 세션을 넘어 유지되는 에이전트 팀
 
-`/squad` is a different shape of answer. It's not a single CLI command, it's an open source framework you install into your repo that creates a persistent team of named agents. Unlike Fleet's disposable sub-agents, Squad agents stick around across issues and sessions.
+`/squad`는 다른 접근 방식입니다. 단일 CLI 명령이 아니라, 저장소에 설치해 이름이 있는 에이전트들로 지속적인 팀을 구성하는 오픈 소스 프레임워크입니다. 실행이 끝나면 사라지는 Fleet의 하위 에이전트와 달리, Squad 에이전트는 이슈와 세션이 바뀌어도 유지됩니다.
 
-If Fleet is contractors for a single sprint, Squad is closer to hiring permanent specialists onto your team: they build context over time, and they can even use Fleet internally when they need a burst of parallel throughput.
+Fleet이 한 스프린트를 위한 계약자라면, Squad는 팀에 상시 전문 인력을 채용하는 것에 가깝습니다. 시간이 지날수록 맥락을 축적하며, 일시적으로 병렬 처리량을 늘려야 할 때는 내부적으로 Fleet을 사용할 수도 있습니다.
 
-**Try it step by step:** [Exercise 02B - A Persistent Team with `/squad`](../02b-squad-framework/README.md) walks through installing the Squad CLI, initializing a team, and delegating a task to a named specialist.
+**단계별로 실습하기:** [실습 02B - `/squad`로 지속적인 팀 구성하기](../02b-squad-framework/README.md)에서는 Squad CLI 설치, 팀 초기화, 이름이 있는 전문 에이전트에게 작업 위임하기를 다룹니다.
 
-### Why this maps to cloud-native architecture
+### 클라우드 네이티브 아키텍처와 연결되는 이유
 
-- **`/fleet` is horizontal scaling for cognitive work.** A cloud-native app scales out stateless compute instances behind a load balancer to absorb load; `/fleet` scales out stateless sub-agents to absorb a backlog.
-- **`/squad` is closer to a long-lived service mesh with persistent state.** Instead of ephemeral pods, you have specialized, addressable agents with their own memory and responsibilities, coordinating with each other.
-- **Wave-based dependency scheduling** inside `/fleet`, run what's unblocked, wait, run the next wave, is conceptually the same DAG scheduling you already know from CI/CD pipelines or a Kubernetes job graph.
+- **`/fleet`은 지적 작업의 수평 확장입니다.** 클라우드 네이티브 앱이 로드 밸런서 뒤에서 상태를 유지하지 않는 컴퓨팅 인스턴스를 늘려 부하를 처리하듯, `/fleet`은 상태를 유지하지 않는 하위 에이전트를 늘려 백로그를 처리합니다.
+- **`/squad`는 상태를 지속적으로 보존하는 장기 실행 서비스 메시와 유사합니다.** 일시적인 파드 대신, 고유한 메모리와 책임을 갖고 개별적으로 지정해 호출할 수 있는 전문 에이전트들이 서로 협업합니다.
+- `/fleet`의 **웨이브 기반 의존성 스케줄링**은 실행 가능한 작업을 처리하고, 완료를 기다린 뒤, 다음 작업 묶음을 실행하는 방식입니다. 개념적으로 CI/CD 파이프라인이나 Kubernetes 작업 그래프에서 사용하는 DAG(방향성 비순환 그래프) 스케줄링과 같습니다.
 
-The takeaway: the single-issue loop from this exercise is the "hello world". `/fleet` and `/squad` are how that same loop scales to a real team's backlog without you personally babysitting every single agent session.
+핵심은 이 실습의 단일 이슈 작업 흐름이 "Hello World"에 해당한다는 점입니다. `/fleet`과 `/squad`를 활용하면 모든 에이전트 세션을 일일이 지켜보지 않고도 같은 흐름을 실제 팀의 백로그 규모로 확장할 수 있습니다.
 
-### The safety model doesn't change
+### 안전 모델은 그대로 유지됩니다
 
-Neither `/fleet` nor `/squad` change the core safety model. Every sub-agent, whether disposable (Fleet) or persistent (Squad), still opens a PR, still cannot merge its own work, and still runs in an isolated sandbox with no production access, all governed by the same GitHub control plane you saw in Step 1 of this exercise. More agents means more parallel proposals for you to review, not less review.
+`/fleet`과 `/squad` 모두 핵심 안전 모델을 바꾸지 않습니다. 일회성인 Fleet 에이전트든 지속적으로 유지되는 Squad 에이전트든, 모든 하위 에이전트는 여전히 PR을 생성하고 자신의 작업을 직접 병합할 수 없으며 운영 환경에 접근할 수 없는 격리된 샌드박스에서 실행됩니다. 이 모든 과정은 이 실습의 1단계에서 살펴본 동일한 GitHub 제어 영역의 관리를 받습니다. 에이전트가 많아진다는 것은 검토할 제안이 병렬로 더 많이 나온다는 뜻이지, 검토가 덜 필요하다는 뜻이 아닙니다.

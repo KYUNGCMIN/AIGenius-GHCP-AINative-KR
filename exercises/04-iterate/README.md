@@ -1,87 +1,87 @@
-# Exercise 04 -- Iterate via PR Comments
+# 실습 04 -- PR 댓글로 반복 개선하기
 
-## Goal
+## 목표
 
-Refine Copilot's work through PR comments rather than starting from scratch.
+처음부터 다시 시작하는 대신 PR 댓글을 통해 Copilot의 작업을 개선합니다.
 
-## The Mental Model
+## 협업을 바라보는 관점
 
-Think of Copilot as a junior developer who is incredibly fast, very literal, and needs clear direction. You are not discarding their work and rewriting it yourself -- you are giving feedback and letting them improve it.
+Copilot을 매우 빠르게 일하지만 지시를 문자 그대로 받아들이므로 명확한 방향 제시가 필요한 주니어 개발자라고 생각해 보세요. 작업물을 버리고 직접 다시 작성하는 것이 아니라, 피드백을 주고 스스로 개선하게 하는 것입니다.
 
-This is collaborative iteration. You don't start over. You refine.
-
----
-
-## Your Task
-
-### Step 1 -- Review Your Comment from Exercise 03
-
-Go back to the draft PR you reviewed in Exercise 03. Find the comment you left requesting a change.
-
-### Step 2 -- Watch Copilot Respond
-
-Copilot will pick up your comment and update the branch. Watch it:
-
-- Interpret your feedback
-- Make the requested changes
-- Push the updated code to the same PR
-
-### Step 3 -- Re-review
-
-Once Copilot has responded, review the updated diff:
-
-- Did it address your feedback correctly?
-- Did it introduce any new issues?
-- Is the PR ready to merge?
-
-### Step 4 -- Leave Another Round of Feedback (Optional)
-
-If the changes need further refinement, leave another comment. Be even more specific this time.
-
-Examples of effective iteration comments:
-
-> "The validation you added rejects empty strings, but it does not trim whitespace first. A task name of '   ' (spaces only) should also be rejected."
-
-> "Can you move the CSV export logic into its own function? The current implementation mixes I/O and formatting in a way that will be hard to test."
-
-> "The error message on line 42 says 'invalid input' but doesn't tell the user what valid input looks like. Can you improve it?"
-
-### Step 5 -- Approve and Merge
-
-When you are satisfied with the PR:
-
-1. Change the PR from **Draft** to **Ready for Review**.
-2. Leave a final review approval.
-3. Merge the PR.
-
-Remember: **Copilot cannot merge.** The human is always the final gate. This is intentional. AI-native does not mean AI-autonomous. It means AI-collaborative.
+이것이 협업을 통한 반복 개선입니다. 처음부터 다시 시작하지 않고 기존 결과를 다듬습니다.
 
 ---
 
-## Reflection Questions
+## 실습
 
-- How many rounds of iteration did it take to get a result you were happy with?
-- How did the precision of your comments affect the quality of Copilot's updates?
-- What would you do differently in the original issue to reduce the number of iterations needed?
+### 1단계 -- 실습 03에서 작성한 댓글 확인하기
+
+실습 03에서 검토한 초안 PR로 돌아가 변경을 요청한 댓글을 찾습니다.
+
+### 2단계 -- Copilot의 대응 살펴보기
+
+Copilot이 댓글을 확인하고 브랜치를 업데이트합니다. 다음 과정을 살펴보세요.
+
+- 피드백 해석
+- 요청한 변경 사항 반영
+- 동일한 PR에 수정된 코드 푸시
+
+### 3단계 -- 다시 검토하기
+
+Copilot이 피드백을 반영하면 업데이트된 변경 내역을 검토합니다.
+
+- 피드백을 올바르게 반영했나요?
+- 새로운 문제가 생기지는 않았나요?
+- PR을 병합할 준비가 되었나요?
+
+### 4단계 -- 추가 피드백 남기기(선택)
+
+더 다듬어야 할 부분이 있다면 댓글을 추가로 남깁니다. 이번에는 더 구체적으로 작성해 보세요.
+
+반복 개선에 도움이 되는 댓글의 예시입니다.
+
+> "추가한 검증은 빈 문자열을 거부하지만, 검증 전에 앞뒤 공백을 제거하지는 않습니다. 작업 이름이 '   '처럼 공백으로만 이루어진 경우도 거부해야 합니다."
+
+> "CSV 내보내기 로직을 별도 함수로 분리해 주세요. 현재 구현은 입출력과 서식 처리가 섞여 있어 테스트하기 어렵습니다."
+
+> "42번째 줄의 오류 메시지는 'invalid input'이라고만 표시되어, 사용자가 어떤 값을 입력해야 하는지 알 수 없습니다. 올바른 입력 예시를 알 수 있도록 개선해 주세요."
+
+### 5단계 -- 승인 및 병합하기
+
+PR이 만족스러운 상태가 되면 다음과 같이 진행합니다.
+
+1. PR 상태를 **Draft**에서 **Ready for Review**로 변경합니다.
+2. 최종 검토를 승인합니다.
+3. PR을 병합합니다.
+
+기억하세요. **Copilot은 병합할 수 없습니다.** 최종 판단은 항상 사람이 내리도록 의도된 구조입니다. AI 네이티브는 AI가 자율적으로 모든 것을 처리한다는 뜻이 아니라, AI와 협업한다는 뜻입니다.
 
 ---
 
-## Congratulations
+## 돌아보기
 
-You have completed the full AI-native development loop:
+- 만족스러운 결과를 얻기까지 몇 차례의 개선이 필요했나요?
+- 댓글의 구체성이 Copilot이 수정한 결과의 품질에 어떤 영향을 주었나요?
+- 반복 횟수를 줄이려면 처음 작성한 이슈에서 무엇을 다르게 작성하겠나요?
+
+---
+
+## 축하합니다
+
+AI 네이티브 개발의 전체 과정을 완료했습니다.
 
 ```
-Write Issue  ─►  Assign to Copilot  ─►  Review PR  ─►  Iterate  ─►  Merge
+이슈 작성  ─►  Copilot에 할당  ─►  PR 검토  ─►  반복 개선  ─►  병합
 ```
 
-You operated as the tech lead. You defined what to build and why. Copilot handled the implementation. You verified the result and guided it to completion.
+여러분은 테크 리드로서 무엇을 왜 만들지 정의했습니다. Copilot은 구현을 담당했습니다. 여러분은 결과를 검증하고 작업이 완료되도록 이끌었습니다.
 
-That is AI-native development.
+이것이 AI 네이티브 개발입니다.
 
 ---
 
-## What Next?
+## 다음으로 해 볼 일
 
-- Explore the [GitHub Copilot documentation](https://docs.github.com/en/copilot)
-- Try the [Copilot CLI](https://docs.github.com/en/copilot/using-github-copilot/using-github-copilot-in-the-command-line): `gh copilot suggest "undo my last commit but keep the changes"`
-- Write a `copilot-instructions.md` for one of your own projects
+- [GitHub Copilot 문서](https://docs.github.com/en/copilot) 살펴보기
+- [Copilot CLI](https://docs.github.com/en/copilot/using-github-copilot/using-github-copilot-in-the-command-line) 사용해 보기: `gh copilot suggest "undo my last commit but keep the changes"` — "변경 사항은 유지하면서 마지막 커밋을 취소해 주세요"라는 요청입니다.
+- 자신의 프로젝트 중 하나에 `copilot-instructions.md` 작성하기

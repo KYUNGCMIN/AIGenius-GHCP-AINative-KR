@@ -1,63 +1,62 @@
-# Exercise 01 -- Write a Well-Formed Issue
+# 실습 01 -- 명확하고 체계적인 이슈 작성하기
 
-## Goal
+## 목표
 
-Learn to write GitHub Issues that give Copilot the context it needs to produce high-quality code.
+Copilot이 높은 품질의 코드를 생성하는 데 필요한 맥락을 제공하도록 GitHub 이슈를 작성하는 방법을 익힙니다.
 
-## Why This Matters
+## 이 실습이 중요한 이유
 
-In an AI-native workflow, your issue IS your prompt. The quality of Copilot's output is directly tied to the quality of the issue you write. A vague issue produces vague code. A specific, well-structured issue with clear acceptance criteria produces code that is far more likely to match your intent.
+AI 네이티브 워크플로에서는 이슈가 곧 프롬프트입니다. Copilot이 만드는 결과의 품질은 여러분이 작성한 이슈의 품질에 직접적으로 좌우됩니다. 모호한 이슈는 의도가 불분명한 코드로 이어집니다. 반면 구체적이고 체계적이며 인수 기준이 명확한 이슈는 의도에 맞는 코드가 나올 가능성을 크게 높입니다.
 
-**Key insight:** You are not just describing a task for a human teammate. You are writing a specification that an AI agent will interpret and act on immediately.
+**핵심:** 사람인 팀원에게 할 일을 설명하는 데 그치는 것이 아닙니다. AI 에이전트가 즉시 해석하고 실행할 명세를 작성하는 것입니다.
 
 ---
 
-## What Makes a Good AI-Native Issue
+## 좋은 AI 네이티브 이슈의 구성 요소
 
-A well-formed issue for Copilot includes:
+Copilot을 위한 잘 구성된 이슈에는 다음 항목이 포함됩니다.
 
-| Section | Purpose |
+| 항목 | 목적 |
 |---|---|
-| **Problem statement** | What gap or pain point are you solving? |
-| **Desired behaviour** | What should the user be able to do when this is done? |
-| **Acceptance criteria** | A checklist of conditions that define "done" |
-| **Constraints** | Libraries to use, things to avoid, performance requirements |
-| **Definition of Done** | Final verification checklist |
+| **문제 정의(Problem statement)** | 어떤 부족한 기능이나 불편을 해결하려고 하나요? |
+| **기대 동작(Desired behaviour)** | 구현이 끝나면 사용자가 무엇을 할 수 있어야 하나요? |
+| **인수 기준(Acceptance criteria)** | 요구사항 충족 여부를 판단할 수 있는 조건의 체크리스트 |
+| **제약 사항(Constraints)** | 사용할 라이브러리, 피해야 할 사항, 성능 요구사항 |
+| **완료 기준(Definition of Done)** | 작업 완료를 선언하기 전 최종 확인할 체크리스트 |
 
 ---
 
-## Your Task
+## 실습
 
-1. Go to the **Issues** tab in this repo.
-2. Click **New issue** and choose the **Feature Request** template.
-3. Write an issue for one of the following features:
+1. 이 저장소의 **Issues** 탭으로 이동합니다.
+2. **New issue**를 클릭하고 **Feature Request** 템플릿을 선택합니다.
+3. 다음 기능 중 하나에 대한 이슈를 작성합니다.
 
-   **Option A:** Migrate task storage to Azure Table Storage
-   > The app currently stores tasks in a local JSON file. Migrate the storage layer to Azure Table Storage so tasks are persisted in the cloud. Use `azure-data-tables` and load credentials from environment variables. The CLI commands should work identically to today.
+   **선택 A:** 작업 저장소를 Azure Table Storage로 이전
+   > 현재 앱은 작업을 로컬 JSON 파일에 저장합니다. 작업을 클라우드에 영구 저장할 수 있도록 저장소 계층을 Azure Table Storage로 이전해 주세요. `azure-data-tables`를 사용하고 자격 증명은 환경 변수에서 불러오세요. CLI 명령은 기존과 동일하게 동작해야 합니다.
 
-   **Option B:** Add Azure OpenAI task categorisation
-   > When a user adds a task, call Azure OpenAI to automatically suggest a category (e.g. "work", "personal", "health") and set it as a tag if none are provided. The user should be able to opt out with `--no-ai`. Load credentials from environment variables.
+   **선택 B:** Azure OpenAI를 활용한 작업 자동 분류 추가
+   > 사용자가 작업을 추가할 때 Azure OpenAI를 호출해 카테고리(예: "work", "personal", "health")를 자동으로 추천하고, 사용자가 태그를 지정하지 않았다면 추천 카테고리를 태그로 설정해 주세요. 사용자는 `--no-ai`로 이 기능을 사용하지 않을 수 있어야 합니다. 자격 증명은 환경 변수에서 불러오세요.
 
-   **Option C:** Add a `search` command
-   > Users should be able to run `python app.py search "keyword"` to find tasks whose name or description contains the keyword. Results should be ranked by priority (high first) and highlight the matching text.
+   **선택 C:** `search` 명령 추가
+   > 사용자가 `python app.py search "keyword"`를 실행하면 이름이나 설명에 해당 키워드가 포함된 작업을 찾을 수 있어야 합니다. 결과는 우선순위가 높은 순서(high 우선)로 정렬하고, 일치하는 텍스트를 강조 표시해 주세요.
 
-   **Option D:** Add recurring tasks
-   > Users should be able to mark a task as recurring with `--repeat daily|weekly|monthly`. When a recurring task is completed, a new copy should be automatically created with the next due date calculated.
+   **선택 D:** 반복 작업 추가
+   > 사용자가 `--repeat daily|weekly|monthly`로 작업을 반복하도록 설정할 수 있어야 합니다. 반복 작업을 완료하면 다음 마감일을 계산해 새 작업을 자동으로 생성해 주세요.
 
-4. Fill in **every section** of the template. Do not leave any section empty.
-5. Submit the issue.
-
----
-
-## Reflection Questions
-
-- How specific did you have to be to clearly describe "done"?
-- What information would Copilot need that a human teammate might already know?
-- Did writing the acceptance criteria help you clarify your own thinking about the feature?
+4. 템플릿의 **모든 항목**을 작성합니다. 비워 두는 항목이 없어야 합니다.
+5. 이슈를 등록합니다.
 
 ---
 
-## Next Step
+## 돌아보기
 
-Once you've written your issue, move on to [Exercise 02 -- Assign to Copilot](../02-assign-to-copilot/README.md).
+- "완료" 상태를 명확하게 설명하려면 어느 정도로 구체적으로 작성해야 했나요?
+- 사람인 팀원은 이미 알고 있지만 Copilot에는 별도로 알려 줘야 하는 정보는 무엇인가요?
+- 인수 기준을 작성하는 과정이 기능에 대한 자신의 생각을 명확하게 정리하는 데 도움이 되었나요?
 
+---
+
+## 다음 단계
+
+이슈를 작성했다면 [실습 02 -- Copilot에 이슈 할당하기](../02-assign-to-copilot/README.md)로 이동하세요.

@@ -1,88 +1,88 @@
-# Exercise 03 -- Review the Draft PR
+# 실습 03 -- 초안 PR 검토하기
 
-## Goal
+## 목표
 
-Review Copilot's pull request with the critical eye of a senior developer.
+시니어 개발자의 비판적인 시각으로 Copilot의 풀 리퀘스트를 검토합니다.
 
-## Your Most Important Skill
+## 가장 중요한 역량
 
-In an AI-native workflow, **critical review** is your highest-value activity. Copilot is very good at generating plausible code. But plausible is not the same as correct, secure, or aligned with your actual intent.
+AI 네이티브 워크플로에서 여러분이 가장 큰 가치를 더할 수 있는 활동은 **비판적인 검토**입니다. Copilot은 그럴듯한 코드를 매우 잘 생성합니다. 하지만 그럴듯하다는 것이 곧 정확하고 안전하며 실제 의도에 부합한다는 뜻은 아닙니다.
 
-You are the quality gate. The AI generates fast. You verify smart.
-
----
-
-## Your Task
-
-### Step 1 -- Open the Draft PR
-
-1. Go to the **Pull Requests** tab in your repo.
-2. Open the draft PR that Copilot created from your issue.
-
-### Step 2 -- Read the Session Log
-
-Before looking at the code diff, read the session log Copilot included in the PR description. This explains:
-
-- How it interpreted your issue
-- What decisions it made and why
-- What it chose not to do
-
-### Step 3 -- Review the Diff
-
-Go through the **Files changed** tab carefully. Use the checklist below as your review guide.
+여러분이 품질을 최종적으로 확인하는 역할을 맡습니다. AI는 빠르게 생성하고, 여러분은 면밀하게 검증합니다.
 
 ---
 
-## PR Review Checklist
+## 실습
 
-Use this checklist on every Copilot-generated PR:
+### 1단계 -- 초안 PR 열기
 
-**Correctness**
-- [ ] Does the code match the acceptance criteria in the issue?
-- [ ] Are edge cases handled? (empty input, invalid values, missing data)
-- [ ] Does the logic make sense end-to-end?
+1. 자신의 저장소에서 **Pull Requests** 탭으로 이동합니다.
+2. Copilot이 여러분의 이슈를 바탕으로 생성한 초안 PR을 엽니다.
 
-**Code Quality**
-- [ ] Is the code readable and consistent with the rest of the codebase?
-- [ ] Are functions small and focused?
-- [ ] Are there type hints and docstrings on new functions?
+### 2단계 -- 세션 로그 읽기
 
-**Security**
-- [ ] No hardcoded credentials, API keys, or secrets
-- [ ] User input is validated before use
-- [ ] No obvious injection or parsing vulnerabilities
+코드 변경 내역(diff)을 보기 전에 Copilot이 PR 설명에 포함한 세션 로그를 읽어 보세요. 다음 내용을 확인할 수 있습니다.
 
-**Dependencies**
-- [ ] Are new dependencies justified and declared in `requirements.txt`?
-- [ ] Are imported libraries actually used?
+- 이슈를 어떻게 해석했는지
+- 어떤 결정을 내렸으며 그 이유는 무엇인지
+- 무엇을 하지 않기로 했는지
 
-**Tests**
-- [ ] Do existing tests still pass?
-- [ ] Are there new tests for the new behaviour?
+### 3단계 -- 변경 내역 검토하기
+
+**Files changed** 탭을 꼼꼼히 살펴보세요. 아래 체크리스트를 검토 기준으로 활용합니다.
 
 ---
 
-## Your Task (Continued)
+## PR 검토 체크리스트
 
-4. Work through the checklist above.
-5. Leave **at least one comment** on the PR requesting a change or asking a clarifying question.
+Copilot이 생성한 모든 PR에 이 체크리스트를 적용하세요.
 
-Good comments are specific. Instead of:
-> "This could be better"
+**정확성**
+- [ ] 코드가 이슈의 인수 기준을 충족하나요?
+- [ ] 경계 사례를 처리하나요? (빈 입력, 잘못된 값, 누락된 데이터)
+- [ ] 전체 흐름에서 로직이 올바르게 이어지나요?
 
-Try:
-> "Can you add input validation to the task name field? It should reject empty strings and names longer than 200 characters."
+**코드 품질**
+- [ ] 코드가 읽기 쉽고 기존 코드베이스와 일관되나요?
+- [ ] 함수가 작고 하나의 역할에 집중하나요?
+- [ ] 새 함수에 타입 힌트와 독스트링이 있나요?
+
+**보안**
+- [ ] 자격 증명, API 키, 비밀 정보가 하드코딩되어 있지 않나요?
+- [ ] 사용자 입력을 사용하기 전에 검증하나요?
+- [ ] 명백한 인젝션 또는 파싱 취약점이 없나요?
+
+**의존성**
+- [ ] 새 의존성을 추가한 이유가 타당하고 `requirements.txt`에 선언되어 있나요?
+- [ ] 가져온 라이브러리를 실제로 사용하나요?
+
+**테스트**
+- [ ] 기존 테스트가 여전히 통과하나요?
+- [ ] 새로운 동작을 확인하는 테스트가 추가되었나요?
 
 ---
 
-## Reflection Questions
+## 실습(계속)
 
-- Did Copilot miss anything from the acceptance criteria?
-- Were there any decisions in the session log you disagreed with?
-- How did writing a detailed issue affect the quality of the PR?
+4. 위 체크리스트를 항목별로 확인합니다.
+5. 변경을 요청하거나 불분명한 부분을 확인하는 댓글을 PR에 **최소 한 개** 남깁니다.
+
+좋은 댓글은 구체적입니다. 다음과 같은 표현 대신:
+> "좀 더 개선하면 좋겠습니다."
+
+이렇게 요청해 보세요.
+> "작업 이름 필드에 입력값 검증을 추가해 주세요. 빈 문자열과 200자를 초과하는 이름은 거부해야 합니다."
 
 ---
 
-## Next Step
+## 돌아보기
 
-Once you've left a review comment, move on to [Exercise 04 -- Iterate via PR Comments](../04-iterate/README.md).
+- Copilot이 인수 기준에서 놓친 항목이 있었나요?
+- 세션 로그의 결정 중 동의하기 어려운 부분이 있었나요?
+- 이슈를 상세히 작성한 것이 PR의 품질에 어떤 영향을 주었나요?
+
+---
+
+## 다음 단계
+
+검토 댓글을 남겼다면 [실습 04 -- PR 댓글로 반복 개선하기](../04-iterate/README.md)로 이동하세요.
