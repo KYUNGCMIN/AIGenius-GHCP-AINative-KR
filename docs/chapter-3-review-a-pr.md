@@ -1,107 +1,107 @@
-# Chapter 3 - Review a Draft PR
+# 3장 - 초안 PR 검토하기
 
-![Reviewer inspecting a pull request diff with a quality checklist.](assets/3-review.png)
+![검토자가 품질 체크리스트를 활용해 풀 리퀘스트의 변경 내역을 확인하는 모습](assets/3-review.png)
 
-AI-generated code can look polished while still being wrong. Your review is the quality gate that protects reliability, security, and maintainability.
+AI가 생성한 코드는 잘 다듬어진 것처럼 보여도 틀릴 수 있습니다. 여러분의 검토는 신뢰성, 보안, 유지보수성을 지키는 품질 관문입니다.
 
-## Goal
+## 목표
 
-Review Copilot's pull request with the critical eye of a senior developer, then leave a real, actionable review comment.
+시니어 개발자의 비판적인 시각으로 Copilot의 풀 리퀘스트를 검토하고, 실제로 반영할 수 있는 구체적인 검토 댓글을 남깁니다.
 
-## Your Most Important Skill
+## 가장 중요한 역량
 
-In an AI-native workflow, **critical review** is your highest-value activity. Copilot is very good at generating plausible code. But plausible is not the same as correct, secure, or aligned with your intent.
+AI 네이티브 워크플로에서 여러분이 가장 큰 가치를 더할 수 있는 활동은 **비판적인 검토**입니다. Copilot은 그럴듯한 코드를 매우 잘 생성합니다. 하지만 그럴듯하다는 것이 곧 정확하고 안전하며 의도에 부합한다는 뜻은 아닙니다.
 
-You are the quality gate. The AI generates fast. You verify smart.
+여러분이 품질을 최종적으로 확인하는 역할을 맡습니다. AI는 빠르게 생성하고, 여러분은 면밀하게 검증합니다.
 
-## Review in this order
+## 권장 검토 순서
 
-1. **Session log first**: understand intent and assumptions.
-2. **Diff second**: verify behavior-level correctness.
-3. **Tests third**: confirm safety net coverage.
+1. **먼저 세션 로그를 읽습니다.** 의도와 가정을 이해하세요.
+2. **그다음 변경 내역을 살펴봅니다.** 실제 동작이 올바른지 검증하세요.
+3. **마지막으로 테스트를 확인합니다.** 테스트가 필요한 범위를 보호하고 있는지 확인하세요.
 
-## Your Task
+## 실습
 
-### Step 1 - Open the Draft PR
+### 1단계 - 초안 PR 열기
 
-1. Go to the **Pull Requests** tab in your repo.
-2. Open the draft PR that Copilot created from your issue.
+1. 자신의 저장소에서 **Pull Requests** 탭으로 이동합니다.
+2. Copilot이 여러분의 이슈를 바탕으로 생성한 초안 PR을 엽니다.
 
-### Step 2 - Read the Session Log
+### 2단계 - 세션 로그 읽기
 
-Before looking at the code diff, read the session log Copilot included in the PR description. This explains:
+코드 변경 내역(diff)을 보기 전에 Copilot이 PR 설명에 포함한 세션 로그를 읽어 보세요. 다음 내용을 확인할 수 있습니다.
 
-- How it interpreted your issue
-- What decisions it made and why
-- What it chose not to do
+- 이슈를 어떻게 해석했는지
+- 어떤 결정을 내렸으며 그 이유는 무엇인지
+- 무엇을 하지 않기로 했는지
 
-### Step 3 - Review the Diff
+### 3단계 - 변경 내역 검토하기
 
-Go through the **Files changed** tab carefully. Use the expanded checklist below as your review guide.
+**Files changed** 탭을 꼼꼼히 살펴보세요. 아래 상세 체크리스트를 검토 기준으로 활용합니다.
 
-## Expanded PR review checklist
+## 상세 PR 검토 체크리스트
 
-### Correctness
-- [ ] Matches issue acceptance criteria exactly
-  - *Why:* prevents partial delivery and scope drift.
-- [ ] Handles edge cases and invalid input
-  - *Why:* user-facing robustness fails first at boundaries.
-- [ ] Preserves existing behavior outside the feature
-  - *Why:* regressions are costly and often subtle.
+### 정확성
+- [ ] 이슈의 인수 기준을 정확하게 충족하나요?
+  - *이유:* 일부만 구현되거나 작업 범위가 벗어나는 것을 방지합니다.
+- [ ] 경계 사례와 잘못된 입력을 처리하나요?
+  - *이유:* 사용자가 겪는 안정성 문제는 경계 조건에서 먼저 드러나기 쉽습니다.
+- [ ] 해당 기능 외의 기존 동작을 유지하나요?
+  - *이유:* 회귀 버그는 해결 비용이 크고 알아차리기 어려운 경우가 많습니다.
 
-### Code quality
-- [ ] Functions are focused and easy to read
-  - *Why:* maintainability determines long-term velocity.
-- [ ] Naming is clear and domain-accurate
-  - *Why:* names are the fastest path to understanding logic.
-- [ ] New public functions include hints/docstrings where expected
-  - *Why:* supports onboarding and future agent accuracy.
+### 코드 품질
+- [ ] 함수가 하나의 역할에 집중하고 읽기 쉬운가요?
+  - *이유:* 유지보수성이 장기적인 개발 속도를 좌우합니다.
+- [ ] 이름이 명확하고 도메인의 의미를 정확하게 표현하나요?
+  - *이유:* 이름은 로직을 가장 빠르게 이해할 수 있는 단서입니다.
+- [ ] 새 공개 함수에 필요한 타입 힌트와 독스트링이 있나요?
+  - *이유:* 새 팀원의 적응을 돕고 향후 에이전트 작업의 정확성을 높입니다.
 
-### Security
-- [ ] No hardcoded credentials, API keys, or secrets
-  - *Why:* secret leaks become incident response events.
-- [ ] Inputs are validated before use
-  - *Why:* blocks common injection and parsing issues.
-- [ ] Failure paths do not reveal sensitive internals
-  - *Why:* error output can leak implementation details.
+### 보안
+- [ ] 자격 증명, API 키, 비밀 정보가 하드코딩되어 있지 않나요?
+  - *이유:* 비밀 정보 유출은 사고 대응이 필요한 보안 사건으로 이어집니다.
+- [ ] 입력을 사용하기 전에 검증하나요?
+  - *이유:* 흔한 인젝션 및 파싱 문제를 차단합니다.
+- [ ] 실패 처리 과정에서 민감한 내부 정보를 노출하지 않나요?
+  - *이유:* 오류 출력으로 구현 세부 정보가 유출될 수 있습니다.
 
-### Dependencies
-- [ ] New dependencies are justified and declared in `requirements.txt`
-  - *Why:* each dependency adds supply-chain and maintenance cost.
-- [ ] Imports are used and scoped narrowly
-  - *Why:* reduces dead code and hidden coupling.
+### 의존성
+- [ ] 새 의존성을 추가한 이유가 타당하고 `requirements.txt`에 선언되어 있나요?
+  - *이유:* 의존성마다 공급망 관리와 유지보수 비용이 추가됩니다.
+- [ ] 가져온 모듈을 실제로 사용하며, 필요한 범위로 한정해 가져오나요?
+  - *이유:* 사용하지 않는 코드와 숨은 결합을 줄입니다.
 
-### Testing
-- [ ] Existing tests still pass
-  - *Why:* confirms no unintended breakage.
-- [ ] New behavior has focused tests
-  - *Why:* protects against regression in future iterations.
+### 테스트
+- [ ] 기존 테스트가 여전히 통과하나요?
+  - *이유:* 의도하지 않은 기능 손상이 없는지 확인합니다.
+- [ ] 새로운 동작을 집중적으로 확인하는 테스트가 있나요?
+  - *이유:* 이후 반복 개선 과정에서 회귀 버그가 발생하는 것을 막습니다.
 
-## Your Task (Continued)
+## 실습(계속)
 
-4. Work through the checklist above.
-5. Leave **at least one comment** on the PR requesting a change or asking a clarifying question.
+4. 위 체크리스트를 항목별로 확인합니다.
+5. 변경을 요청하거나 불분명한 부분을 확인하는 댓글을 PR에 **최소 한 개** 남깁니다.
 
-## High-signal review comment examples
+## 핵심을 명확히 전달하는 검토 댓글 예시
 
-Good comments are specific. Instead of:
-> "This could be better"
+좋은 댓글은 구체적입니다. 다음과 같은 표현 대신:
+> "좀 더 개선하면 좋겠습니다."
 
-Try one of these:
-> "Can you add input validation to the task name field? It should reject empty strings and names longer than 200 characters."
+이렇게 요청해 보세요.
+> "작업 이름 필드에 입력값 검증을 추가해 주세요. 빈 문자열과 200자를 초과하는 이름은 거부해야 합니다."
 
-> "Please trim whitespace before empty-name validation; `'   '` should fail too."
+> "작업 이름이 비어 있는지 검증하기 전에 앞뒤 공백을 제거해 주세요. `'   '`도 검증에 실패해야 합니다."
 
-> "Can you add a test proving fallback behavior when `AZURE_STORAGE_CONNECTION_STRING` is missing?"
+> "`AZURE_STORAGE_CONNECTION_STRING`이 없을 때 대체 동작이 올바르게 수행되는지 확인하는 테스트를 추가해 주세요."
 
-> "This helper mixes formatting and I/O. Please split for easier unit testing."
+> "이 헬퍼는 서식 처리와 입출력을 함께 수행합니다. 단위 테스트를 쉽게 작성할 수 있도록 분리해 주세요."
 
-## Reflection Questions
+## 돌아보기
 
-- Did Copilot miss anything from the acceptance criteria?
-- Were there any decisions in the session log you disagreed with?
-- How did writing a detailed issue affect the quality of the PR?
+- Copilot이 인수 기준에서 놓친 항목이 있었나요?
+- 세션 로그의 결정 중 동의하기 어려운 부분이 있었나요?
+- 이슈를 상세히 작성한 것이 PR의 품질에 어떤 영향을 주었나요?
 
-## Next Step
+## 다음 단계
 
-Once you've left a review comment, move on to [Chapter 4 - Iterate via PR Comments](chapter-4-iterate.md).
+검토 댓글을 남겼다면 [4장 - PR 댓글로 반복 개선하기](chapter-4-iterate.md)로 이동하세요.

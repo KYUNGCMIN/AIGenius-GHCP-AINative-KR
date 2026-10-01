@@ -1,124 +1,124 @@
-# Chapter 4 - Iterate via PR Comments
+# 4장 - PR 댓글로 반복 개선하기
 
-![Human and AI exchanging feedback in an iterative loop.](assets/4-iterate.png)
+![사람과 AI가 피드백을 주고받으며 반복 개선하는 모습](assets/4-iterate.png)
 
-Iteration is where AI-native teams gain speed without giving up quality. Good comments transform "almost right" output into production-ready work.
+AI 네이티브 팀은 반복 개선을 통해 품질을 유지하면서 속도를 높입니다. 좋은 댓글은 "거의 맞는" 결과물을 실제 운영에 사용할 수 있는 수준으로 바꿉니다.
 
-## Goal
+## 목표
 
-Refine Copilot's work through PR comments rather than starting from scratch, then merge your first AI-native PR.
+처음부터 다시 시작하는 대신 PR 댓글을 통해 Copilot의 작업을 개선하고, 첫 번째 AI 네이티브 PR을 병합합니다.
 
-## The Mental Model
+## 협업을 바라보는 관점
 
-Think of Copilot as a junior developer who is incredibly fast, very literal, and needs clear direction. You are not discarding their work and rewriting it yourself, you are giving feedback and letting them apply it.
+Copilot을 매우 빠르게 일하지만 지시를 문자 그대로 받아들이므로 명확한 방향 제시가 필요한 주니어 개발자라고 생각해 보세요. 작업물을 버리고 직접 다시 작성하는 것이 아니라, 피드백을 주고 스스로 반영하게 하는 것입니다.
 
-This is collaborative iteration. You don't start over. You refine.
+이것이 협업을 통한 반복 개선입니다. 처음부터 다시 시작하지 않고 기존 결과를 다듬습니다.
 
-## Your Task
+## 실습
 
-### Step 1 - Review Your Comment from Chapter 3
+### 1단계 - 3장에서 작성한 댓글 확인하기
 
-Go back to the draft PR you reviewed in Chapter 3. Find the comment you left requesting a change.
+3장에서 검토한 초안 PR로 돌아가 변경을 요청한 댓글을 찾습니다.
 
-### Step 2 - Watch Copilot Respond
+### 2단계 - Copilot의 대응 살펴보기
 
-Copilot will pick up your comment and update the branch. Watch it:
+Copilot이 댓글을 확인하고 브랜치를 업데이트합니다. 다음 과정을 살펴보세요.
 
-- Interpret your feedback
-- Make the requested changes
-- Push the updated code to the same PR
+- 피드백 해석
+- 요청한 변경 사항 반영
+- 동일한 PR에 수정된 코드 푸시
 
-### Step 3 - Re-review
+### 3단계 - 다시 검토하기
 
-Once Copilot has responded, review the updated diff:
+Copilot이 피드백을 반영하면 업데이트된 변경 내역을 검토합니다.
 
-- Did it address your feedback correctly?
-- Did it introduce any new issues?
-- Is the PR ready to merge?
+- 피드백을 올바르게 반영했나요?
+- 새로운 문제가 생기지는 않았나요?
+- PR을 병합할 준비가 되었나요?
 
-### Step 4 - Leave Another Round of Feedback (Optional)
+### 4단계 - 추가 피드백 남기기(선택)
 
-If the changes need further refinement, leave another comment. Be even more specific this time.
+더 다듬어야 할 부분이 있다면 댓글을 추가로 남깁니다. 이번에는 더 구체적으로 작성해 보세요.
 
-## Good vs. bad iteration comments
+## 반복 개선 댓글의 좋은 예와 좋지 않은 예
 
-### Validation refinement
+### 입력값 검증 개선
 
-**Too vague (bad):**
-> "Validation is wrong."
+**너무 모호한 요청(좋지 않은 예):**
+> "검증이 잘못되었습니다."
 
-**Actionable (good):**
-> "Please reject task names that are empty after trimming whitespace. Add a test for input `'   '` and verify it returns a user-friendly error."
+**구체적으로 반영할 수 있는 요청(좋은 예):**
+> "앞뒤 공백을 제거한 뒤 빈 문자열이 되는 작업 이름은 거부해 주세요. 입력이 `'   '`인 경우의 테스트를 추가하고, 사용자가 이해하기 쉬운 오류를 반환하는지 확인해 주세요."
 
-### Architecture refinement
+### 아키텍처 개선
 
-**Too vague (bad):**
-> "Refactor this."
+**너무 모호한 요청(좋지 않은 예):**
+> "리팩터링해 주세요."
 
-**Actionable (good):**
-> "Move Azure table serialization into a helper function so storage and CLI concerns stay separate. Keep CLI command signatures unchanged."
+**구체적으로 반영할 수 있는 요청(좋은 예):**
+> "저장소와 CLI의 책임을 분리할 수 있도록 Azure 테이블 직렬화 로직을 헬퍼 함수로 옮겨 주세요. CLI 명령 시그니처는 변경하지 마세요."
 
-### UX refinement
+### 사용자 경험(UX) 개선
 
-**Too vague (bad):**
-> "Error message is confusing."
+**너무 모호한 요청(좋지 않은 예):**
+> "오류 메시지가 혼란스럽습니다."
 
-**Actionable (good):**
-> "Update the error to include valid date format (`YYYY-MM-DD`) and a concrete example."
+**구체적으로 반영할 수 있는 요청(좋은 예):**
+> "오류 메시지에 올바른 날짜 형식(`YYYY-MM-DD`)과 구체적인 예시를 포함해 주세요."
 
-## Comment formula that works
+## 효과적인 댓글 작성 공식
 
-Use this pattern:
+다음 순서로 작성하세요.
 
-1. **What is wrong now**
-2. **What exact behavior is expected**
-3. **How to verify (test/manual step)**
+1. **현재 무엇이 잘못되었는지**
+2. **정확히 어떤 동작을 기대하는지**
+3. **어떻게 검증할지(테스트 또는 수동 확인 절차)**
 
-## When to iterate vs. abandon a PR
+## PR을 개선할 때와 중단하고 다시 시작할 때
 
-Iterate when:
+다음과 같은 경우에는 반복 개선을 이어 갑니다.
 
-- Core approach is correct but incomplete
-- Most acceptance criteria are satisfied
-- Remaining fixes are localized
+- 핵심 접근 방식은 맞지만 구현이 아직 완전하지 않은 경우
+- 인수 기준을 대부분 충족한 경우
+- 남은 수정 사항이 일부 영역에 한정된 경우
 
-Abandon/restart when:
+다음과 같은 경우에는 기존 PR을 중단하고 다시 시작합니다.
 
-- Architecture violates core constraints
-- Security model is fundamentally broken
-- Diff is too large/noisy to review confidently
-- Rework would exceed rewrite effort
+- 아키텍처가 핵심 제약 사항을 위반한 경우
+- 보안 모델에 근본적인 문제가 있는 경우
+- 변경 내역이 너무 크거나 불필요한 변경이 많아 확신을 갖고 검토하기 어려운 경우
+- 수정하는 데 드는 노력이 새로 작성하는 것보다 큰 경우
 
-If you restart, write a tighter issue with explicit constraints and keep prior lessons in `copilot-instructions.md`.
+다시 시작한다면 제약 사항을 명시한 더 정교한 이슈를 작성하고, 이전에 얻은 교훈을 `copilot-instructions.md`에 남기세요.
 
-### Step 5 - Approve and Merge
+### 5단계 - 승인 및 병합하기
 
-When you are satisfied with the PR:
+PR이 만족스러운 상태가 되면 다음과 같이 진행합니다.
 
-1. Change the PR from **Draft** to **Ready for Review**.
-2. Leave a final review approval.
-3. Merge the PR.
+1. PR 상태를 **Draft**에서 **Ready for Review**로 변경합니다.
+2. 최종 검토를 승인합니다.
+3. PR을 병합합니다.
 
-Remember: **Copilot cannot merge.** The human is always the final gate. This is intentional. AI-native does not mean AI-autonomous. It means AI-collaborative.
+기억하세요. **Copilot은 병합할 수 없습니다.** 최종 판단은 항상 사람이 내리도록 의도된 구조입니다. AI 네이티브는 AI가 자율적으로 모든 것을 처리한다는 뜻이 아니라, AI와 협업한다는 뜻입니다.
 
-## Reflection Questions
+## 돌아보기
 
-- How many rounds of iteration did it take to get a result you were happy with?
-- How did the precision of your comments affect the quality of Copilot's updates?
-- What would you do differently in the original issue to reduce the number of iterations needed?
+- 만족스러운 결과를 얻기까지 몇 차례의 개선이 필요했나요?
+- 댓글의 구체성이 Copilot이 수정한 결과의 품질에 어떤 영향을 주었나요?
+- 반복 횟수를 줄이려면 처음 작성한 이슈에서 무엇을 다르게 작성하겠나요?
 
-## Congratulations
+## 축하합니다
 
-You have completed the full AI-native development loop:
+AI 네이티브 개발의 전체 과정을 완료했습니다.
 
 ```
-Write Issue  ─►  Assign to Copilot  ─►  Review PR  ─►  Iterate  ─►  Merge
+이슈 작성  ─►  Copilot에 할당  ─►  PR 검토  ─►  반복 개선  ─►  병합
 ```
 
-You operated as the tech lead. You defined what to build and why. Copilot handled the implementation. You verified the result and guided it to completion.
+여러분은 테크 리드로서 무엇을 왜 만들지 정의했습니다. Copilot은 구현을 담당했습니다. 여러분은 결과를 검증하고 작업이 완료되도록 이끌었습니다.
 
-That is AI-native development.
+이것이 AI 네이티브 개발입니다.
 
-## Next Step
+## 다음 단계
 
-Ready for a bigger challenge? Move on to [Chapter 5 - Azure + AI Extension](chapter-5-azure-and-ai.md), or jump straight to [Chapter 6 - Resources and Next Steps](resources.md) if you're done for today.
+더 큰 과제에 도전할 준비가 되었다면 [5장 - Azure + AI 확장](chapter-5-azure-and-ai.md)으로 이동하세요. 오늘 실습을 여기서 마친다면 [6장 - 참고 자료와 다음 단계](resources.md)로 바로 이동해도 좋습니다.

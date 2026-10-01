@@ -121,4 +121,4 @@ squad upgrade
 
 ## 다음 단계
 
-[2장 - Copilot에 할당하기(원본 영문 문서)](../../docs/chapter-2-assign-to-copilot.md)로 돌아가거나, [실습 03 - 초안 PR 검토하기](../03-review-a-pr/README.md)로 이동하세요.
+[2장 - Copilot에 이슈 할당하기](../../docs/chapter-2-assign-to-copilot.md)로 돌아가거나, [실습 03 - 초안 PR 검토하기](../03-review-a-pr/README.md)로 이동하세요.

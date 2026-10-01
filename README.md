@@ -117,9 +117,9 @@ Michelle은 Microsoft에서 개발자 참여 프로그램을 이끌고 있습니
 
 ---
 
-## 원본 영문 워크숍 문서 사이트(MkDocs)
+## 한국어 워크숍 문서 사이트(MkDocs)
 
-이 저장소에는 참가자용 MkDocs Material 문서 사이트도 포함되어 있습니다. `docs/`의 본문은 **원본 영어로 유지**되며, 한국어 번역 범위는 이 README와 7개 실습 README입니다.
+이 저장소에는 참가자용 MkDocs Material 문서 사이트도 포함되어 있습니다. 이 README와 7개 실습 README뿐 아니라 [`docs/`의 모든 문서](./docs/index.md)와 사이트 내비게이션도 **한국어로 제공**합니다.
 
 - 로컬에서 실행:
   ```bash
@@ -132,4 +132,4 @@ Michelle은 Microsoft에서 개발자 참여 프로그램을 이끌고 있습니
   ```
 - 배포 구성:
   - 원본의 GitHub Actions 워크플로 `.github/workflows/docs.yml`은 `attendee-mkdocs-site` 및 `main` 브랜치에 푸시하면 사이트를 빌드하고 GitHub Pages에 배포하도록 정의되어 있습니다. 실제 배포에는 해당 워크플로와 GitHub Pages가 활성화되어 있어야 합니다.
-  - 이 한국어 번역 작업은 GitHub 저장소의 README 공개만을 대상으로 하며, GitHub Pages 배포나 워크플로 활성화는 포함하지 않습니다.
+  - 이 한국어 번역 작업은 GitHub 저장소의 README와 MkDocs 문서 소스 공개를 대상으로 하며, GitHub Pages 배포나 워크플로 활성화는 포함하지 않습니다.

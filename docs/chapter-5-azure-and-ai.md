@@ -1,172 +1,172 @@
-# Chapter 5 - Azure + AI Extension
+# 5장 - Azure + AI 확장
 
-![Extending the workshop app with Azure Storage and Azure OpenAI](assets/5-azure.png)
+![Azure Storage와 Azure OpenAI로 워크숍 앱을 확장하는 모습](assets/5-azure.png)
 
-This chapter introduces production-flavored requirements: cloud SDKs, credentials, resilience, and optional AI augmentation.
+이 장에서는 클라우드 SDK, 자격 증명, 장애 대응력, 선택적 AI 기능 확장 등 실제 운영 환경을 고려한 요구사항을 다룹니다.
 
-## Goal
+## 목표
 
-See how Copilot handles real cloud SDK integration and AI feature development, and understand what makes these tasks both impressive and risky to delegate.
+Copilot이 실제 클라우드 SDK 연동과 AI 기능 개발을 어떻게 처리하는지 살펴보고, 이런 작업을 위임할 때 얻는 이점과 수반되는 위험을 이해합니다.
 
-## Why This Is Different
+## 이전 장과 다른 점
 
-In the previous chapters, Copilot extended a local Python app. Now you'll write issues that require Copilot to:
+이전 장에서는 Copilot이 로컬 Python 앱을 확장했습니다. 이제 다음 작업을 Copilot에 요청하는 이슈를 작성합니다.
 
-- Use the **Azure SDK** for cloud storage (`azure-data-tables`)
-- Call **Azure OpenAI** to add AI behaviour at runtime
-- Handle secrets safely using environment variables
-- Write tests that mock cloud calls
+- 클라우드 저장소를 위한 **Azure SDK**(`azure-data-tables`) 사용
+- **Azure OpenAI**를 호출해 앱 실행 중 AI 기능 제공
+- 환경 변수를 이용해 비밀 정보를 안전하게 처리
+- 클라우드 호출을 모의 처리(mock)하는 테스트 작성
 
-This is a meaningful complexity jump. It's also where the quality of your issue and your review skills matter most.
+작업의 복잡도가 상당히 높아집니다. 그만큼 이슈의 품질과 검토 역량이 가장 중요해지는 단계이기도 합니다.
 
-## Why these architecture patterns matter
+## 이러한 아키텍처 패턴이 중요한 이유
 
-### Storage abstraction
-A `TaskStorage` interface keeps the CLI stable while swapping persistence backends (local JSON vs Azure Table Storage). This reduces coupling and allows safer rollout, testing, and fallback behaviour.
+### 저장소 추상화
+`TaskStorage` 인터페이스를 사용하면 데이터를 저장하는 백엔드를 로컬 JSON에서 Azure Table Storage로 바꾸더라도 CLI는 안정적으로 유지할 수 있습니다. 결합도를 낮추고, 더 안전하게 배포·테스트하거나 대체 저장소로 전환할 수 있습니다.
 
-### Graceful degradation
-AI-assisted features should not block core user flows. If credentials are missing or a model call fails, users should still complete tasks normally.
+### AI 기능 장애 시 기본 기능 유지
+AI 보조 기능이 핵심 사용자 흐름을 막아서는 안 됩니다. 자격 증명이 없거나 모델 호출에 실패하더라도 사용자는 작업을 정상적으로 완료할 수 있어야 합니다.
 
-These two patterns are essential in real systems where cloud dependencies can be intermittent.
+이 두 패턴은 의존하는 클라우드 서비스를 일시적으로 사용할 수 없을 때가 있는 실제 시스템에서 필수적입니다.
 
-## Option 1: Migrate Storage to Azure Table Storage
+## 선택 1: 저장소를 Azure Table Storage로 이전하기
 
-### The Architecture
+### 아키텍처
 
 ```
 CLI (app.py)
-    └─► storage.py  (new abstraction layer)
-            ├─► LocalStorage (current JSON file - default)
-            └─► AzureTableStorage (new - activated by env var)
+    └─► storage.py  (새로운 추상화 계층)
+            ├─► LocalStorage (기존 JSON 파일 - 기본값)
+            └─► AzureTableStorage (새 구현 - 환경 변수로 활성화)
 ```
 
-When `AZURE_STORAGE_CONNECTION_STRING` is set, the app uses Azure Table Storage. Otherwise it falls back to the local JSON file. **Zero breaking changes.**
+`AZURE_STORAGE_CONNECTION_STRING`이 설정되어 있으면 앱은 Azure Table Storage를 사용합니다. 그렇지 않으면 기존 로컬 JSON 파일을 사용합니다. **기존 동작과의 호환성을 그대로 유지합니다.**
 
-### Pre-Written Issue
+### 바로 사용할 수 있는 이슈 예시
 
-Use this as your Chapter 1 issue (Option A), or create a new issue with this content now:
-
----
-
-**Title:** Migrate task storage to Azure Table Storage
-
-**Problem statement:**
-Tasks are currently stored in a local JSON file (`tasks.json`). This means data is lost when the machine changes and cannot be shared across devices. We need a cloud-backed storage option.
-
-**Desired behaviour:**
-- When the `AZURE_STORAGE_CONNECTION_STRING` environment variable is set, tasks are stored in and retrieved from an Azure Table Storage table named `tasks`.
-- When the environment variable is not set, the app falls back to the existing local JSON file behaviour.
-- All existing CLI commands (`add`, `list`, `complete`, `edit`, `delete`, `stats`) work identically regardless of which storage backend is active.
-
-**Acceptance criteria:**
-- [ ] A new `storage.py` module defines a `TaskStorage` protocol with `load() -> list[dict]` and `save(tasks: list[dict]) -> None` methods
-- [ ] `LocalStorage` implements `TaskStorage` using the existing JSON file approach
-- [ ] `AzureTableStorage` implements `TaskStorage` using `azure-data-tables`
-- [ ] `app.py` calls `get_storage()` to obtain the correct implementation at startup
-- [ ] `AZURE_STORAGE_CONNECTION_STRING` is loaded from a `.env` file using `python-dotenv` if present
-- [ ] If the env var is set but the connection fails, the app prints a clear error and exits with code 1
-- [ ] `azure-data-tables` and `python-dotenv` are added to `requirements.txt`
-- [ ] Tests cover both storage implementations (mock Azure calls with `unittest.mock`)
-- [ ] No connection strings or account keys appear in source code
-
-**Constraints:**
-- Use `azure-data-tables` (not the older `azure-storage-table` SDK)
-- Use `PartitionKey = "tasks"` and `RowKey = str(task["id"])` for Azure entities
-- Do not change the CLI interface or task schema
-
-**Definition of Done:**
-- [ ] `python app.py add "Test" && python app.py list` works with a real Azure Storage account
-- [ ] All existing tests still pass
-- [ ] New tests cover `AzureTableStorage` with mocked Azure calls
+아래 내용을 1장의 이슈(선택 A)로 사용하거나, 지금 이 내용으로 새 이슈를 작성하세요.
 
 ---
 
-### What to Look for in the PR
+**제목:** 작업 저장소를 Azure Table Storage로 이전
 
-When reviewing Copilot's implementation, pay particular attention to:
+**문제 정의:**
+현재 작업은 로컬 JSON 파일(`tasks.json`)에 저장됩니다. 따라서 컴퓨터를 바꾸면 기존 데이터를 사용할 수 없고 여러 기기에서 공유할 수도 없습니다. 클라우드 기반 저장소를 선택할 수 있어야 합니다.
 
-- **Does it hardcode any credentials?** This is a critical security failure if so.
-- **Does the storage abstraction actually decouple the two implementations?** Or did it inline everything in `app.py`?
-- **Are Azure errors handled gracefully?** Or do they produce raw Python stack traces?
-- **Are the tests actually isolated?** Azure calls must be mocked, not real.
+**기대 동작:**
+- `AZURE_STORAGE_CONNECTION_STRING` 환경 변수가 설정되어 있으면 Azure Table Storage의 `tasks` 테이블에 작업을 저장하고 해당 테이블에서 불러옵니다.
+- 환경 변수가 설정되어 있지 않으면 기존과 동일하게 로컬 JSON 파일을 사용합니다.
+- 어떤 저장소 백엔드를 사용하더라도 기존 CLI 명령(`add`, `list`, `complete`, `edit`, `delete`, `stats`)은 모두 동일하게 동작합니다.
 
-## Option 2: Add Azure OpenAI Task Categorisation
+**인수 기준:**
+- [ ] 새 `storage.py` 모듈에 `load() -> list[dict]` 및 `save(tasks: list[dict]) -> None` 메서드를 갖는 `TaskStorage` 프로토콜을 정의합니다.
+- [ ] `LocalStorage`는 기존 JSON 파일 방식을 사용해 `TaskStorage`를 구현합니다.
+- [ ] `AzureTableStorage`는 `azure-data-tables`를 사용해 `TaskStorage`를 구현합니다.
+- [ ] `app.py`는 시작 시 `get_storage()`를 호출해 적절한 구현을 가져옵니다.
+- [ ] `.env` 파일이 있으면 `python-dotenv`를 사용해 `AZURE_STORAGE_CONNECTION_STRING`을 불러옵니다.
+- [ ] 환경 변수가 설정되어 있지만 연결에 실패하면 명확한 오류를 출력하고 종료 코드 1로 종료합니다.
+- [ ] `requirements.txt`에 `azure-data-tables`와 `python-dotenv`를 추가합니다.
+- [ ] 두 저장소 구현을 모두 테스트합니다. Azure 호출은 `unittest.mock`으로 모의 처리합니다.
+- [ ] 소스 코드에 연결 문자열이나 계정 키가 포함되지 않습니다.
 
-### The Architecture
+**제약 사항:**
+- 이전 버전의 `azure-storage-table` SDK가 아닌 `azure-data-tables`를 사용합니다.
+- Azure 엔터티에는 `PartitionKey = "tasks"`와 `RowKey = str(task["id"])`를 사용합니다.
+- CLI 인터페이스와 작업 스키마는 변경하지 않습니다.
+
+**완료 기준:**
+- [ ] 실제 Azure Storage 계정으로 `python app.py add "Test" && python app.py list`가 동작합니다.
+- [ ] 기존 테스트가 모두 통과합니다.
+- [ ] Azure 호출을 모의 처리하는 `AzureTableStorage` 테스트를 추가합니다.
+
+---
+
+### PR에서 중점적으로 확인할 사항
+
+Copilot의 구현을 검토할 때 다음 사항에 특히 주의하세요.
+
+- **하드코딩된 자격 증명이 있나요?** 있다면 심각한 보안 문제입니다.
+- **저장소 추상화가 실제로 두 구현을 분리하나요?** 아니면 모든 로직이 `app.py`에 들어가 있나요?
+- **Azure 오류를 적절하게 처리하나요?** 아니면 Python 스택 추적을 그대로 노출하나요?
+- **테스트가 실제로 외부 서비스와 격리되어 있나요?** 실제 Azure 호출이 아니라 모의 호출을 사용해야 합니다.
+
+## 선택 2: Azure OpenAI를 활용한 작업 자동 분류 추가하기
+
+### 아키텍처
 
 ```
 python app.py add "Renew SSL certificate"
-    └─► Azure OpenAI: "Suggest a category for: Renew SSL certificate"
-            └─► returns: "devops"
-                    └─► task saved with tags: ["devops"]
+    └─► Azure OpenAI: "Renew SSL certificate 작업의 카테고리를 하나 추천해 주세요"
+            └─► 반환값: "devops"
+                    └─► 작업을 다음 태그와 함께 저장: ["devops"]
 ```
 
-### Pre-Written Issue
+### 바로 사용할 수 있는 이슈 예시
 
 ---
 
-**Title:** Add Azure OpenAI smart tag suggestion to `add` command
+**제목:** `add` 명령에 Azure OpenAI 기반 지능형 태그 추천 추가
 
-**Problem statement:**
-Users often forget to tag tasks when adding them. We want to use Azure OpenAI to suggest a single category tag automatically when no tags are provided.
+**문제 정의:**
+사용자는 작업을 추가할 때 태그 지정을 자주 잊습니다. 태그가 지정되지 않았을 때 Azure OpenAI를 활용해 카테고리 태그 하나를 자동으로 추천하려고 합니다.
 
-**Desired behaviour:**
-- When `AZURE_OPENAI_ENDPOINT`, `AZURE_OPENAI_API_KEY`, and `AZURE_OPENAI_DEPLOYMENT` are all set AND the user does not provide any `--tag` arguments, call Azure OpenAI to suggest a single tag for the task.
-- The suggested tag is added automatically and displayed to the user: `[AI suggested tag: devops]`
-- If any of the env vars are missing, or if the AI call fails, the task is saved without a tag (graceful degradation, never block the user).
-- Add a `--no-ai` flag to `add` that skips the AI suggestion entirely.
+**기대 동작:**
+- `AZURE_OPENAI_ENDPOINT`, `AZURE_OPENAI_API_KEY`, `AZURE_OPENAI_DEPLOYMENT`가 모두 설정되어 있고 사용자가 `--tag` 인수를 하나도 지정하지 않았을 때만 Azure OpenAI를 호출해 작업에 맞는 태그 하나를 추천합니다.
+- 추천 태그를 자동으로 추가하고 사용자에게 `[AI suggested tag: devops]`와 같이 표시합니다.
+- 환경 변수 중 하나라도 없거나 AI 호출이 실패하면 태그 없이 작업을 저장합니다. AI 기능을 사용할 수 없어도 사용자의 작업을 막지 않도록 기본 기능은 정상 제공해야 합니다.
+- AI 추천을 완전히 건너뛰는 `--no-ai` 플래그를 `add`에 추가합니다.
 
-**Acceptance criteria:**
-- [ ] `suggest_tag(task_name: str, description: str) -> str | None` function in a new `ai.py` module
-- [ ] Uses `openai.AzureOpenAI` with credentials from environment variables
-- [ ] System prompt instructs the model to return a single lowercase tag (no punctuation)
-- [ ] `add` command calls `suggest_tag` only when no `--tag` flags are provided and `--no-ai` is not set
-- [ ] Graceful degradation: any exception from the AI call is caught and logged, task is saved normally
-- [ ] `openai` added to `requirements.txt`
-- [ ] Tests for `suggest_tag` mock the OpenAI client, no real API calls in tests
+**인수 기준:**
+- [ ] 새 `ai.py` 모듈에 `suggest_tag(task_name: str, description: str) -> str | None` 함수를 구현합니다.
+- [ ] 환경 변수의 자격 증명을 사용해 `openai.AzureOpenAI`를 호출합니다.
+- [ ] 시스템 프롬프트는 문장 부호 없이 소문자 태그 하나만 반환하도록 모델에 지시합니다.
+- [ ] `add` 명령은 `--tag` 플래그가 하나도 없고 `--no-ai`도 설정되지 않았을 때만 `suggest_tag`를 호출합니다.
+- [ ] AI 호출에서 발생하는 모든 예외를 처리하고 로그에 기록하며, 작업은 정상적으로 저장합니다.
+- [ ] `requirements.txt`에 `openai`를 추가합니다.
+- [ ] `suggest_tag` 테스트는 OpenAI 클라이언트를 모의 처리하며, 실제 API를 호출하지 않습니다.
 
-**Constraints:**
-- The AI call must not block the user for more than 5 seconds (use `timeout=5` in the client)
-- Never log or print the raw API key
-- The `--no-ai` flag is documented in `--help`
+**제약 사항:**
+- AI 호출로 사용자가 5초 넘게 기다리게 해서는 안 됩니다. 클라이언트에서 `timeout=5`를 사용합니다.
+- API 키 원문을 로그에 남기거나 출력하지 않습니다.
+- `--help`에 `--no-ai` 플래그를 설명합니다.
 
-**Definition of Done:**
-- [ ] `python app.py add "Deploy to production"` with env vars set shows an AI-suggested tag
-- [ ] `python app.py add "Deploy" --no-ai` skips the AI call
-- [ ] All existing tests still pass
-- [ ] New tests cover `suggest_tag` with mocked responses and error cases
+**완료 기준:**
+- [ ] 환경 변수를 설정한 상태에서 `python app.py add "Deploy to production"`을 실행하면 AI가 추천한 태그를 표시합니다.
+- [ ] `python app.py add "Deploy" --no-ai`는 AI 호출을 건너뜁니다.
+- [ ] 기존 테스트가 모두 통과합니다.
+- [ ] 모의 응답과 오류 사례를 포함한 `suggest_tag` 테스트를 추가합니다.
 
 ---
 
-### What to Look for in the PR
+### PR에서 중점적으로 확인할 사항
 
-- **Is the AI call truly optional?** The app must work even when the env vars are not set.
-- **Is the timeout enforced?** A slow OpenAI call should not block the CLI.
-- **Is the prompt well-designed?** Ask Copilot to show you the system prompt, does it constrain the output format clearly?
-- **Are errors swallowed silently?** Errors should be caught and logged, not silently ignored.
+- **AI 호출이 정말 선택 사항인가요?** 환경 변수가 설정되어 있지 않아도 앱은 동작해야 합니다.
+- **시간 제한이 실제로 적용되나요?** 느린 OpenAI 호출 때문에 CLI가 멈춰서는 안 됩니다.
+- **프롬프트가 잘 설계되어 있나요?** Copilot에 시스템 프롬프트를 보여 달라고 요청하세요. 출력 형식을 명확하게 제한하나요?
+- **오류를 조용히 무시하고 있지는 않나요?** 오류는 처리하고 로그에 기록해야 하며, 아무런 기록 없이 무시해서는 안 됩니다.
 
-## Stretch Goal: Run the Full Loop Twice
+## 심화 목표: 전체 개발 과정을 두 번 반복하기
 
-1. Complete Option 1 (Azure storage) with Copilot via the AI-native loop from Chapters 1-4.
-2. After merging, write a new issue for Option 2 (Azure OpenAI) and run the loop again.
+1. Copilot과 함께 1~4장의 AI 네이티브 개발 과정을 따라 선택 1(Azure 저장소)을 완료합니다.
+2. 병합한 뒤 선택 2(Azure OpenAI)에 대한 새 이슈를 작성하고 같은 과정을 다시 진행합니다.
 
-By the end, you'll have an app that:
-- Stores tasks in Azure Table Storage
-- Auto-categorises tasks with AI on creation
-- Has a full test suite with mocked cloud calls
-- Loads all credentials from environment variables
+마치고 나면 다음 기능을 갖춘 앱이 완성됩니다.
+- Azure Table Storage에 작업 저장
+- 작업 생성 시 AI를 이용한 자동 분류
+- 클라우드 호출을 모의 처리하는 전체 테스트 모음
+- 환경 변수를 통한 모든 자격 증명 로딩
 
-That is a production-grade AI-native cloud application, built through collaboration between you and Copilot.
+여러분과 Copilot의 협업으로 프로덕션 수준의 AI 네이티브 클라우드 애플리케이션을 만든 것입니다.
 
-## Production review checkpoints
+## 운영 환경을 고려한 검토 항목
 
-- [ ] Are credentials loaded only from environment variables?
-- [ ] Is fallback behavior deterministic and tested?
-- [ ] Are cloud/API calls mocked in tests?
-- [ ] Are failure messages clear but non-sensitive?
+- [ ] 자격 증명을 환경 변수에서만 불러오나요?
+- [ ] 대체 동작이 일관되고 예측 가능하며, 테스트로 확인되어 있나요?
+- [ ] 테스트에서 클라우드/API 호출을 모의 처리하나요?
+- [ ] 실패 메시지가 명확하면서도 민감한 정보를 포함하지 않나요?
 
-## Next Steps
+## 다음 단계
 
-- Read the [Azure Table Storage Python quickstart](https://learn.microsoft.com/en-us/azure/storage/tables/table-storage-quickstart-create-python)
-- Read the [Azure OpenAI Python quickstart](https://learn.microsoft.com/en-us/azure/ai-services/openai/quickstart?pivots=programming-language-python)
-- Move on to [Chapter 6 - Resources and Next Steps](resources.md)
+- [Azure Table Storage Python 빠른 시작](https://learn.microsoft.com/en-us/azure/storage/tables/table-storage-quickstart-create-python) 읽어 보기
+- [Azure OpenAI Python 빠른 시작](https://learn.microsoft.com/en-us/azure/ai-services/openai/quickstart?pivots=programming-language-python) 읽어 보기
+- [6장 - 참고 자료와 다음 단계](resources.md)로 이동하기

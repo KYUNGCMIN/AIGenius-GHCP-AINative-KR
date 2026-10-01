@@ -1,98 +1,98 @@
-# Chapter 1 - Write a Well-Formed Issue
+# 1장 - 명확하고 체계적인 이슈 작성하기
 
-![Developer writing a detailed feature issue while an AI agent reviews requirements in the background.](assets/1-issue.png)
+![개발자가 상세한 기능 이슈를 작성하고 AI 에이전트가 백그라운드에서 요구사항을 검토하는 모습](assets/1-issue.png)
 
-A strong issue is the single highest-leverage input in the AI-native loop. In practice, your issue becomes the spec, prompt, and success contract all at once.
+잘 작성된 이슈는 AI 네이티브 개발 과정에서 결과에 가장 큰 영향을 주는 입력입니다. 실제로 이슈는 명세이자 프롬프트이며, 성공 여부를 판단하는 합의 기준이 됩니다.
 
-## Goal
+## 목표
 
-Learn to write GitHub Issues that give Copilot the context it needs to produce high-quality code, then write and submit a real issue in your forked repository.
+Copilot이 높은 품질의 코드를 생성하는 데 필요한 맥락을 제공하도록 GitHub 이슈를 작성하는 방법을 익힙니다. 그런 다음 자신의 포크 저장소에 실제 이슈를 작성하고 등록합니다.
 
-## Why prompt quality matters in issues
+## 이슈에서 프롬프트 품질이 중요한 이유
 
-When Copilot reads an issue, it converts natural language into engineering actions: files to inspect, APIs to call, tests to update, and constraints to obey. If your intent is vague, the implementation will be too.
+Copilot은 이슈를 읽고 자연어를 구체적인 개발 작업으로 변환합니다. 살펴볼 파일, 호출할 API, 수정할 테스트, 지켜야 할 제약 사항을 결정하는 것입니다. 의도가 모호하면 구현도 모호해집니다.
 
-**Key insight:** you are not just describing a task for a human teammate. You are writing a specification that an AI agent will interpret and act on immediately.
+**핵심:** 사람인 팀원에게 할 일을 설명하는 데 그치는 것이 아닙니다. AI 에이전트가 즉시 해석하고 실행할 명세를 작성하는 것입니다.
 
-Use this structure every time:
+항상 다음 구조를 사용하세요.
 
-- **Problem statement**: what pain exists today?
-- **Desired behavior**: what should users experience when done?
-- **Acceptance criteria**: how will we verify success?
-- **Constraints**: which libraries/patterns must or must not be used?
-- **Definition of done**: what final checks are mandatory?
+- **문제 정의:** 현재 어떤 불편이 있나요?
+- **기대 동작:** 구현이 끝나면 사용자가 어떤 경험을 할 수 있어야 하나요?
+- **인수 기준:** 요구사항 충족 여부를 어떻게 검증하나요?
+- **제약 사항:** 반드시 사용하거나 사용하지 말아야 할 라이브러리와 패턴은 무엇인가요?
+- **완료 기준:** 최종적으로 반드시 확인할 항목은 무엇인가요?
 
-## Worked issue example (Option C: `search` command)
+## 완성된 이슈 예시(선택 C: `search` 명령)
 
-### Title
-`Add search command for task name/description with priority-ranked results`
+### 제목
+`작업 이름과 설명을 검색하고 결과를 우선순위순으로 표시하는 search 명령 추가`
 
-### Problem statement
-Users can add and list tasks, but cannot quickly find a specific task when the list grows.
+### 문제 정의
+사용자는 작업을 추가하고 목록을 볼 수 있지만, 목록이 길어지면 특정 작업을 빠르게 찾기 어렵습니다.
 
-### Desired behavior
-A user can run `python app.py search "keyword"` to find matching tasks by name or description. Results should show high-priority tasks first and make matches easy to spot.
+### 기대 동작
+사용자가 `python app.py search "keyword"`를 실행하면 이름이나 설명에 키워드가 일치하는 작업을 찾을 수 있습니다. 결과는 우선순위가 높은 작업부터 표시하고, 일치하는 부분을 쉽게 알아볼 수 있어야 합니다.
 
-### Acceptance criteria
-- [ ] Add `search` command to CLI with a required `keyword` argument
-- [ ] Match against task `name` and `description` (case-insensitive)
-- [ ] Sort matches by priority order: `high`, `medium`, `low`
-- [ ] Highlight matching text in output
-- [ ] Return a clear message if no tasks match
-- [ ] Add tests for exact match, partial match, and no-match scenarios
+### 인수 기준
+- [ ] 필수 인수 `keyword`를 받는 `search` 명령을 CLI에 추가합니다.
+- [ ] 대소문자를 구분하지 않고 작업의 `name`과 `description`에서 일치 여부를 확인합니다.
+- [ ] 검색 결과를 `high`, `medium`, `low` 우선순위순으로 정렬합니다.
+- [ ] 출력에서 일치하는 텍스트를 강조 표시합니다.
+- [ ] 일치하는 작업이 없으면 명확한 메시지를 반환합니다.
+- [ ] 정확히 일치하는 경우, 일부만 일치하는 경우, 일치하는 결과가 없는 경우를 테스트합니다.
 
-### Constraints
-- Reuse existing output style with `rich`
-- Do not change task schema
-- Keep existing commands unchanged
+### 제약 사항
+- `rich`를 사용하는 기존 출력 스타일을 재사용합니다.
+- 작업 스키마를 변경하지 않습니다.
+- 기존 명령을 변경하지 않습니다.
 
-### Definition of done
-- [ ] Existing tests pass
-- [ ] New search tests pass
-- [ ] Manual run demonstrates ranking and highlighting behavior
+### 완료 기준
+- [ ] 기존 테스트가 통과합니다.
+- [ ] 새 검색 테스트가 통과합니다.
+- [ ] 직접 실행해 정렬과 강조 표시 동작을 확인합니다.
 
-## Common mistakes
+## 자주 하는 실수
 
-1. **Requirements are implied, not explicit**
-   - Bad: "Add search support"
-   - Better: include matching rules, sorting, display behavior, and test expectations.
-2. **No constraints on dependencies or architecture**
-   - This leads to unnecessary package additions or invasive refactors.
-3. **No edge cases in acceptance criteria**
-   - Include empty input handling, no-results behavior, and invalid values.
-4. **Done criteria are missing verification steps**
-   - Always require tests and a concrete manual check.
+1. **요구사항을 명시하지 않고 암묵적으로 전달하기**
+   - 좋지 않은 예: "검색 기능을 추가해 주세요."
+   - 더 나은 방법: 일치 규칙, 정렬, 표시 방식, 기대하는 테스트를 포함하세요.
+2. **의존성이나 아키텍처에 제약을 두지 않기**
+   - 불필요한 패키지 추가나 광범위한 리팩터링으로 이어질 수 있습니다.
+3. **인수 기준에서 경계 사례를 빠뜨리기**
+   - 빈 입력 처리, 결과가 없을 때의 동작, 잘못된 값을 포함하세요.
+4. **완료 기준에서 검증 절차를 빠뜨리기**
+   - 테스트와 구체적인 수동 확인을 항상 요구하세요.
 
-## Your Task
+## 실습
 
-1. Go to the **Issues** tab in your forked repository.
-2. Click **New issue** and choose the **Feature Request** template.
-3. Write an issue for one of the following features:
+1. 자신의 포크 저장소에서 **Issues** 탭으로 이동합니다.
+2. **New issue**를 클릭하고 **Feature Request** 템플릿을 선택합니다.
+3. 다음 기능 중 하나에 대한 이슈를 작성합니다.
 
-   **Option A - Migrate task storage to Azure Table Storage**
-   > The app currently stores tasks in a local JSON file. Migrate the storage layer to Azure Table Storage so tasks are persisted in the cloud. Use `azure-data-tables` and load credentials from environment variables. (This option is explored in full detail in [Chapter 5](chapter-5-azure-and-ai.md) if you want to tackle it as a stretch goal.)
+   **선택 A - 작업 저장소를 Azure Table Storage로 이전**
+   > 현재 앱은 작업을 로컬 JSON 파일에 저장합니다. 작업을 클라우드에 영구 저장할 수 있도록 저장소 계층을 Azure Table Storage로 이전해 주세요. `azure-data-tables`를 사용하고 자격 증명은 환경 변수에서 불러오세요. 심화 과제로 도전하고 싶다면 [5장](chapter-5-azure-and-ai.md)에서 이 주제를 자세히 다룹니다.
 
-   **Option B - Add Azure OpenAI task categorisation**
-   > When a user adds a task, call Azure OpenAI to automatically suggest a category (e.g. "work", "personal", "health") and set it as a tag if none are provided. The user should be able to opt out with a flag. (Also explored fully in [Chapter 5](chapter-5-azure-and-ai.md).)
+   **선택 B - Azure OpenAI를 활용한 작업 자동 분류 추가**
+   > 사용자가 작업을 추가할 때 Azure OpenAI를 호출해 카테고리(예: "work", "personal", "health")를 자동으로 추천하고, 사용자가 태그를 지정하지 않았다면 추천 카테고리를 태그로 설정해 주세요. 사용자는 플래그로 이 기능을 사용하지 않을 수 있어야 합니다. 이 주제 역시 [5장](chapter-5-azure-and-ai.md)에서 자세히 다룹니다.
 
-   **Option C - Add a `search` command**
-   > Users should be able to run `python app.py search "keyword"` to find tasks whose name or description contains the keyword. Results should be ranked by priority (high first) and highlight the match. Use the worked example above as your template.
+   **선택 C - `search` 명령 추가**
+   > 사용자가 `python app.py search "keyword"`를 실행하면 이름이나 설명에 해당 키워드가 포함된 작업을 찾을 수 있어야 합니다. 결과는 우선순위가 높은 순서(high 우선)로 정렬하고, 일치하는 부분을 강조 표시해 주세요. 위의 완성된 이슈 예시를 템플릿으로 활용하세요.
 
-   **Option D - Add recurring tasks**
-   > Users should be able to mark a task as recurring with `--repeat daily|weekly|monthly`. When a recurring task is completed, a new copy should be automatically created with the next due date calculated from the repeat interval.
+   **선택 D - 반복 작업 추가**
+   > 사용자가 `--repeat daily|weekly|monthly`로 작업을 반복하도록 설정할 수 있어야 합니다. 반복 작업을 완료하면 반복 주기에 따라 다음 마감일을 계산해 새 작업을 자동으로 생성해 주세요.
 
-4. Fill in **every section** of the template. Do not leave any section empty.
-5. Submit the issue.
+4. 템플릿의 **모든 항목**을 작성합니다. 비워 두는 항목이 없어야 합니다.
+5. 이슈를 등록합니다.
 
-!!! tip "Recommended for your first pass"
-    Option C (`search`) is the most self-contained and a great first issue to write, since the worked example above walks you through the full structure. Save Options A and B for Chapter 5 if you want the stretch challenge.
+!!! tip "처음 진행할 때 권장하는 선택"
+    선택 C(`search`)는 외부 의존성이 가장 적고, 위 예시가 전체 구조를 안내하므로 첫 이슈로 적합합니다. 심화 과제에 도전하고 싶다면 선택 A와 B는 5장에서 진행하세요.
 
-## Reflection Questions
+## 돌아보기
 
-- How specific did you have to be to clearly describe "done"?
-- What information would Copilot need that a human teammate might already know?
-- Did writing the acceptance criteria help you clarify your own thinking about the feature?
+- "완료" 상태를 명확하게 설명하려면 어느 정도로 구체적으로 작성해야 했나요?
+- 사람인 팀원은 이미 알고 있지만 Copilot에는 별도로 알려 줘야 하는 정보는 무엇인가요?
+- 인수 기준을 작성하는 과정이 기능에 대한 자신의 생각을 명확하게 정리하는 데 도움이 되었나요?
 
-## Next Step
+## 다음 단계
 
-Once you've written your issue, move on to [Chapter 2 - Assign to Copilot](chapter-2-assign-to-copilot.md).
+이슈를 작성했다면 [2장 - Copilot에 이슈 할당하기](chapter-2-assign-to-copilot.md)로 이동하세요.

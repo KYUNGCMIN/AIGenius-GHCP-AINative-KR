@@ -1,189 +1,191 @@
-# Chapter 2 - Assign to Copilot
+# 2장 - Copilot에 이슈 할당하기
 
-![Assigning an issue to Copilot to work on in a secure sandbox](assets/2-assign.png)
+![안전한 샌드박스에서 작업하도록 Copilot에 이슈를 할당하는 모습](assets/2-assign.png)
 
-Assigning an issue is where the workflow shifts from maker mode to lead mode. You define what to build; Copilot executes in a controlled environment.
+이슈를 할당하는 순간, 직접 구현하던 역할에서 작업을 이끄는 역할로 전환합니다. 여러분이 무엇을 만들지 정의하면 Copilot은 통제된 환경에서 실행합니다.
 
-## Goal
+## 목표
 
-Delegate the issue you wrote in Chapter 1 to Copilot, observe it working in real time, then use Copilot Chat and the Copilot CLI to build your own understanding of the codebase while the agent works.
+1장에서 작성한 이슈를 Copilot에 위임하고 작업 과정을 실시간으로 관찰합니다. 에이전트가 작업하는 동안 Copilot Chat과 Copilot CLI로 코드베이스에 대한 이해를 넓힙니다.
 
-## The Mindset Shift
+## 일하는 방식의 전환
 
-In the old workflow, after writing an issue you would open your IDE and start coding. In the AI-native workflow, you've just delegated this task to a team member. Your job is now to **guide and review**, not type every line yourself.
+기존 워크플로에서는 이슈를 작성한 뒤 IDE를 열고 직접 코딩을 시작했습니다. AI 네이티브 워크플로에서는 이 작업을 팀원에게 위임한 셈입니다. 이제 여러분의 역할은 모든 코드를 직접 입력하는 것이 아니라 **방향을 제시하고 검토하는 것**입니다.
 
-Copilot spins up a secure, isolated GitHub-hosted environment (similar to an Actions VM) to do this work. It cannot touch your production environment, cannot merge without your approval, and keeps a full session log so you can see exactly what it did and why.
+Copilot은 이 작업을 수행하기 위해 GitHub에서 호스팅하는 안전하게 격리된 환경을 시작합니다. GitHub Actions 가상 머신(VM)과 유사한 환경입니다. 운영 환경에 접근할 수 없고, 여러분의 승인 없이 병합할 수 없습니다. 또한 전체 세션 로그를 남기므로 무엇을 왜 했는지 정확히 확인할 수 있습니다.
 
-## What happens in the secure sandbox
+## 안전한 샌드박스에서 진행되는 작업
 
-After assignment, Copilot runs in an isolated environment:
+작업이 할당되면 Copilot은 격리된 환경에서 다음 과정을 수행합니다.
 
-1. Clones the target repository and checks out a working branch.
-2. Reads project structure, issues, and instructions (including `copilot-instructions.md`).
-3. Plans edits and applies code changes.
-4. Runs validation steps (tests/lint/build when available).
-5. Opens or updates a draft PR with a session log.
+1. 대상 저장소를 복제하고 작업 브랜치를 체크아웃합니다.
+2. 프로젝트 구조, 이슈, 지침(`copilot-instructions.md` 포함)을 읽습니다.
+3. 수정 계획을 세우고 코드를 변경합니다.
+4. 검증 절차를 실행합니다. 테스트, 린트, 빌드가 준비되어 있으면 이를 활용합니다.
+5. 세션 로그와 함께 초안 PR을 생성하거나 업데이트합니다.
 
-This isolation matters: no direct access to your local machine, no silent merge, and transparent change history.
+이러한 격리는 중요합니다. 로컬 컴퓨터에 직접 접근하지 않고, 여러분이 모르는 사이에 병합하지 않으며, 변경 이력을 투명하게 남기기 때문입니다.
 
-## How `copilot-instructions.md` influences output
+## `copilot-instructions.md`가 결과에 미치는 영향
 
-`copilot-instructions.md` acts as persistent repository context. In this workshop repo it defines:
+`copilot-instructions.md`는 지속적으로 참고할 저장소 맥락을 제공합니다. 이 워크숍 저장소에는 다음 내용이 정의되어 있습니다.
 
-- Python 3.10+, typing, and style expectations
-- Testing approach (`pytest`, isolated fixtures)
-- Azure patterns for env vars and SDK usage
-- Security expectations (no hardcoded credentials)
+- Python 3.10 이상 사용, 타입 힌트, 코드 스타일에 대한 기대 사항
+- 테스트 방식(`pytest`, 격리된 픽스처)
+- 환경 변수와 SDK 사용을 위한 Azure 패턴
+- 보안 요구사항(자격 증명 하드코딩 금지)
 
-Think of this file as your team's "house rules" for every AI-generated change.
+이 파일을 AI가 생성하는 모든 변경에 적용되는 팀의 "공통 규칙"이라고 생각하세요.
 
-## The GitHub Copilot App: what it is and when to use it
+## GitHub Copilot App의 역할과 활용 시점
 
-The **GitHub Copilot App** is a standalone desktop and mobile client (separate from your IDE) that gives you a dashboard for everything Copilot is doing across your repositories. It is *not* the same thing as the Copilot extension inside VS Code, it is a control plane for the asynchronous, agentic side of Copilot.
+**GitHub Copilot App**은 IDE와 별개로 동작하는 독립형 데스크톱·모바일 클라이언트입니다. 여러 저장소에서 Copilot이 수행하는 모든 작업을 대시보드로 보여 줍니다. VS Code 안의 Copilot 확장과는 *다릅니다*. Copilot의 비동기 에이전트 작업을 관리하는 제어 영역에 해당합니다.
 
-Use the Copilot App when you want to:
+다음과 같은 경우 Copilot App을 사용하세요.
 
-- **Track active sessions** across multiple repos and issues from one place (the "My Work" view).
-- **Delegate whole tasks** to the coding agent instead of writing code yourself, then check back later.
-- **Review session logs** without switching into your IDE, useful when you assigned work from your phone or another machine.
-- **Approve or comment on draft PRs** on the go, before doing a deeper review in your IDE.
+- 여러 저장소와 이슈의 **활성 세션을 한곳에서 추적**하고 싶을 때("My Work" 화면).
+- 직접 코드를 작성하는 대신 코딩 에이전트에 **작업 전체를 위임**하고 나중에 결과를 확인하고 싶을 때.
+- IDE를 열지 않고 **세션 로그를 검토**하고 싶을 때. 휴대폰이나 다른 컴퓨터에서 작업을 할당한 경우 유용합니다.
+- IDE에서 더 자세히 검토하기 전에 이동 중에도 **초안 PR을 승인하거나 댓글을 남기고** 싶을 때.
 
-Use Copilot Chat or the CLI instead when you want:
+다음과 같은 경우에는 Copilot Chat이나 CLI를 사용하세요.
 
-- An **immediate, conversational answer** about code you are actively looking at (Chat).
-- A **quick terminal command explanation or suggestion** without switching context (CLI).
-- To **stay in the loop synchronously**, rather than delegate and check back later.
+- 현재 보고 있는 코드에 대해 **대화로 즉시 답변**을 받고 싶을 때(Chat).
+- 다른 도구로 전환하지 않고 **터미널 명령의 설명이나 제안을 빠르게** 받고 싶을 때(CLI).
+- 위임한 뒤 나중에 확인하는 대신 **동기적으로 과정에 참여**하고 싶을 때.
 
-| Tool | Mode | Best for |
+| 도구 | 작업 방식 | 적합한 용도 |
 |---|---|---|
-| **Copilot App** | Asynchronous, agentic | Delegating whole issues, tracking multiple sessions, reviewing on the go |
-| **Copilot Chat** | Synchronous, conversational | Understanding code you're currently looking at, in-editor Q&A |
-| **Copilot CLI** | Synchronous, terminal-based | Quick shell command help without leaving the terminal |
+| **Copilot App** | 비동기, 에이전트 기반 | 이슈 전체 위임, 여러 세션 추적, 이동 중 검토 |
+| **Copilot Chat** | 동기, 대화형 | 현재 보고 있는 코드 이해, 편집기 안에서 질의응답 |
+| **Copilot CLI** | 동기, 터미널 기반 | 터미널을 벗어나지 않고 빠르게 셸 명령 도움 받기 |
 
-## Your Task
+## 실습
 
-### Step 1 - Assign the Issue
+### 1단계 - 이슈 할당하기
 
-1. Open the issue you wrote in Chapter 1.
-2. In the **Assignees** panel on the right, click the gear icon.
-3. Search for and select **Copilot** from the list.
-4. Save the assignment.
+1. 1장에서 작성한 이슈를 엽니다.
+2. 오른쪽 **Assignees** 패널에서 톱니바퀴 아이콘을 클릭합니다.
+3. 목록에서 **Copilot**을 검색해 선택합니다.
+4. 담당자 설정을 저장합니다.
 
-You should see Copilot appear in the assignees list and a comment appear on the issue indicating it has picked up the work.
+담당자 목록에 Copilot이 표시되고, 작업을 시작했다는 댓글이 이슈에 달리는지 확인합니다.
 
-### Step 2 - Open the Copilot App
+### 2단계 - Copilot App 열기
 
-1. Open the **GitHub Copilot App** on your desktop.
-2. Navigate to the **My Work** view.
-3. Find the active session for your issue.
+1. 데스크톱에서 **GitHub Copilot App**을 엽니다.
+2. **My Work** 화면으로 이동합니다.
+3. 자신의 이슈에 해당하는 활성 세션을 찾습니다.
 
-### Step 3 - Observe
+### 3단계 - 작업 과정 관찰하기
 
-Watch Copilot work. You will see it:
+Copilot이 작업하는 모습을 살펴보세요. 다음 과정을 확인할 수 있습니다.
 
-- Clone the repository into a secure sandbox
-- Explore the codebase to understand the existing structure
-- Make code changes
-- Open a draft PR with a session log explaining its decisions
+- 안전한 샌드박스에 저장소 복제
+- 기존 구조를 이해하기 위한 코드베이스 탐색
+- 코드 변경
+- 의사 결정 과정을 설명하는 세션 로그와 함께 초안 PR 생성
 
-Do not intervene yet. Just observe.
+아직 개입하지 말고 관찰만 해 보세요.
 
-### Step 4 - Explore with Copilot Chat
+### 4단계 - Copilot Chat으로 살펴보기
 
-While the agent session runs in the background, open **Copilot Chat** in your editor (VS Code, JetBrains, or the github.com chat panel) against your local clone of `starter-app`. Try asking it:
+에이전트 세션이 백그라운드에서 실행되는 동안 로컬에 복제한 `starter-app`을 대상으로 **Copilot Chat**을 엽니다. VS Code, JetBrains 또는 github.com의 채팅 패널을 이용할 수 있습니다. 다음과 같이 질문해 보세요.
 
-- `@workspace explain how app.py stores and loads tasks`
-- `@workspace what would I need to change to add a new field to a task?`
-- `/explain` on the `list` command in `app.py`
+- `@workspace app.py에서 작업을 저장하고 불러오는 방식을 설명해 주세요`
+- `@workspace 작업에 새 필드를 추가하려면 무엇을 변경해야 하나요?`
+- `app.py`의 `list` 명령 코드를 선택하고 `/explain` 실행
 
-This is a different mode of working with Copilot: instead of delegating a whole task, you are having a conversation to build understanding. Notice how Chat answers are grounded in the actual files in your workspace, the same codebase the agent is currently editing in its sandbox.
+이것은 Copilot과 협업하는 또 다른 방식입니다. 작업 전체를 위임하는 대신 대화를 통해 이해를 넓힙니다. Chat의 답변이 워크스페이스의 실제 파일을 근거로 하는지 살펴보세요. 에이전트도 현재 샌드박스에서 같은 코드베이스를 수정하고 있습니다.
 
-### Step 5 - Explore with the Copilot CLI
+### 5단계 - Copilot CLI로 살펴보기
 
-If you have the [GitHub Copilot CLI](https://docs.github.com/en/copilot/how-tos/set-up/install-copilot-cli) installed, try it from your terminal in the repo root:
+[GitHub Copilot CLI](https://docs.github.com/en/copilot/how-tos/set-up/install-copilot-cli)가 설치되어 있다면 저장소 루트에서 터미널을 열고 다음 명령을 실행해 보세요.
 
 ```bash
 gh copilot suggest "run the starter-app tests and show a summary of failures"
 gh copilot explain "python app.py stats"
 ```
 
-The CLI is useful for quick, one-off questions and shell command help without leaving the terminal, a lighter-weight complement to the full agent workflow you triggered in Step 1.
+첫 번째 명령은 "starter-app 테스트를 실행하고 실패 내용을 요약해 주세요"라는 요청을 전달하고, 두 번째 명령은 `python app.py stats`의 동작을 설명하도록 요청합니다.
 
-## What the session log contains
+CLI는 터미널을 벗어나지 않고 간단한 일회성 질문을 하거나 셸 명령의 도움을 받을 때 유용합니다. 1단계에서 시작한 전체 에이전트 워크플로를 더 가벼운 방식으로 보완합니다.
 
-The session log is your audit trail. Expect to see:
+## 세션 로그에 담기는 내용
 
-- What files Copilot explored first
-- Why it chose certain implementation paths
-- Commands run for validation
-- Any failures and subsequent fixes
-- Final summary of completed work
+세션 로그는 작업 과정을 확인할 수 있는 감사 기록입니다. 다음 내용을 살펴보세요.
 
-Review this before reviewing the diff; it helps you catch mismatches between your intent and Copilot's assumptions.
+- Copilot이 먼저 살펴본 파일
+- 특정 구현 방식을 선택한 이유
+- 검증을 위해 실행한 명령
+- 발생한 실패와 이후 수정 사항
+- 완료한 작업의 최종 요약
 
-## Quick observer checklist
+변경 내역을 검토하기 전에 로그를 읽으면 여러분의 의도와 Copilot의 가정이 어긋나는 부분을 찾는 데 도움이 됩니다.
 
-- Did Copilot interpret the issue correctly?
-- Did it follow repo-specific instructions?
-- Did it test what it changed?
-- Did it explain tradeoffs and limitations?
-- Did Chat/CLI answers match what the agent actually implemented?
+## 관찰할 때 빠르게 확인할 항목
 
-## Go Deeper: Awesome Copilot Learning Hub
+- Copilot이 이슈를 올바르게 해석했나요?
+- 저장소별 지침을 따랐나요?
+- 변경한 내용을 테스트했나요?
+- 선택에 따른 장단점과 한계를 설명했나요?
+- Chat/CLI의 답변이 에이전트가 실제로 구현한 내용과 일치했나요?
 
-For a structured, community-maintained path through everything Copilot can do, beyond this workshop, check out the [**Awesome GitHub Copilot Learning Hub**](https://github.com/github/awesome-copilot). It covers:
+## 심화 학습: Awesome Copilot Learning Hub
 
-- Getting-started guides for the Copilot App, Copilot Chat, and Copilot CLI
-- Custom instructions and skills for tailoring Copilot to your team's standards
-- Building custom agents and agentic workflows
-- A cookbook of ready-to-use recipes for extending Copilot across languages and project types
+이 워크숍을 넘어 Copilot의 다양한 기능을 체계적으로 학습하려면 커뮤니티가 관리하는 [**Awesome GitHub Copilot Learning Hub**](https://github.com/github/awesome-copilot)를 살펴보세요. 다음 내용을 다룹니다.
 
-It's a good next stop once you've finished this workshop and want to go beyond the issue-to-PR loop covered here.
+- Copilot App, Copilot Chat, Copilot CLI 시작 안내
+- Copilot을 팀의 기준에 맞추기 위한 사용자 지정 지침과 스킬
+- 사용자 지정 에이전트와 에이전트 워크플로 만들기
+- 여러 언어와 프로젝트 유형에서 Copilot을 확장할 수 있는, 바로 활용 가능한 예제 모음
 
-## Go Deeper (Optional): Scaling Up, From One Issue to a Fleet
+워크숍을 마친 뒤, 여기서 다룬 이슈 작성부터 PR 생성까지의 과정을 넘어 더 배우고 싶을 때 유용한 다음 학습 자료입니다.
 
-![Fleet of Copilot coding agents working together on curated workshop resources and next steps.](assets/fleet.png)
+## 심화 학습(선택): 하나의 이슈에서 여러 에이전트로 확장하기
 
-!!! warning "Token cost warning"
-    The two exercises linked below are heavier on AI usage than the one-issue, one-agent loop you just ran. `/fleet` and `/squad` both spin up **multiple** agent sessions instead of one. If you're on a personal/paid plan and don't have a real project in mind to justify it, it's fine to just read this section and the linked exercises, and skip running them live.
+![추천 워크숍 자료와 다음 학습 단계를 함께 준비하는 Copilot 코딩 에이전트 팀](assets/fleet.png)
 
-So far you've done the smallest possible unit of AI-native work: one issue, one agent, one PR. That's the right place to start, but it doesn't scale to a real sprint, where you might have ten issues in flight. This is where `/fleet` and `/squad` come in, two different answers to the same question: *how do I go from one developer directing one agent, to a whole team directing many agents at once?*
+!!! warning "토큰 비용 주의"
+    아래에 링크된 두 실습은 앞서 수행한 이슈 하나·에이전트 하나의 작업 흐름보다 AI 사용량이 많습니다. `/fleet`과 `/squad`는 모두 하나가 아닌 **여러 개의** 에이전트 세션을 실행합니다. 개인용/유료 요금제를 사용 중이고 추가 사용량을 감수할 만한 실제 프로젝트가 없다면, 이 절과 링크된 실습을 읽기만 하고 직접 실행은 건너뛰어도 좋습니다.
 
-### `/fleet`: parallel, stateless execution
+지금까지 AI 네이티브 작업의 가장 작은 단위인 이슈 하나, 에이전트 하나, PR 하나를 경험했습니다. 올바른 출발점이지만, 이슈 열 개가 동시에 진행될 수도 있는 실제 스프린트에 그대로 적용하기는 어렵습니다. 이때 `/fleet`과 `/squad`를 활용할 수 있습니다. 두 방식은 같은 질문에 서로 다른 답을 제시합니다. *한 개발자가 에이전트 하나를 지휘하는 방식에서 팀 전체가 여러 에이전트를 동시에 지휘하는 방식으로 어떻게 확장할 수 있을까요?*
 
-`/fleet` is a [Copilot CLI command](https://docs.github.com/en/copilot/concepts/agents/copilot-cli/fleet) built for parallel, stateless execution. You give it one objective, and an orchestrator agent breaks that objective into independent sub-tasks, checks which ones are unblocked, and runs them in parallel.
+### `/fleet`: 상태를 유지하지 않는 병렬 실행
 
-Think of it like this: if today's single Copilot agent is one developer picking up one issue, `/fleet` is like assigning ten related issues at once and having ten short-lived contractors work them simultaneously, then handing back the combined result.
+`/fleet`은 상태를 유지하지 않는 병렬 실행을 위한 [Copilot CLI 명령](https://docs.github.com/en/copilot/concepts/agents/copilot-cli/fleet)입니다. 목표 하나를 제시하면 오케스트레이터 에이전트가 이를 독립적인 하위 작업으로 나누고, 선행 작업을 기다리지 않아도 되는 작업을 확인해 병렬로 실행합니다.
 
-Ready to try it? [Exercise 02A - Parallel Execution with `/fleet`](https://github.com/codess-aus/AIGenius-GHCP-AINative/blob/main/exercises/02a-fleet-mode/README.md) walks through pre-reqs, installing the Copilot CLI, and running your own `/fleet` prompt step by step.
+이렇게 생각해 보세요. 단일 Copilot 에이전트가 이슈 하나를 맡는 개발자라면, `/fleet`은 관련 이슈 열 개를 한꺼번에 할당해 단기 계약자 열 명이 동시에 작업하게 한 뒤 통합된 결과를 받는 것과 같습니다.
 
-### `/squad`: a persistent team of agents
+직접 해 보고 싶다면 [실습 02A - `/fleet`으로 병렬 실행하기](https://github.com/KYUNGCMIN/AIGenius-GHCP-AINative-KR/blob/main/exercises/02a-fleet-mode/README.md)로 이동하세요. 사전 준비 사항부터 Copilot CLI 설치, `/fleet` 프롬프트 실행까지 단계별로 안내합니다.
 
-[`/squad`](https://bradygaster.github.io/squad/) is a different shape of answer. It's not a single CLI command, it's an open source framework you install into your repo that creates a persistent team of named agents. Unlike Fleet's disposable sub-agents, Squad agents stick around across issues and sessions.
+### `/squad`: 세션을 넘어 유지되는 에이전트 팀
 
-If Fleet is contractors for a single sprint, Squad is closer to hiring permanent specialists onto your team: they build context over time, and they can even use Fleet internally when they need a burst of parallel throughput.
+[`/squad`](https://bradygaster.github.io/squad/)는 다른 접근 방식입니다. 단일 CLI 명령이 아니라, 저장소에 설치해 이름이 있는 에이전트들로 지속적인 팀을 구성하는 오픈 소스 프레임워크입니다. 실행이 끝나면 사라지는 Fleet의 하위 에이전트와 달리, Squad 에이전트는 이슈와 세션이 바뀌어도 유지됩니다.
 
-Ready to try it? [Exercise 02B - A Persistent Team with `/squad`](https://github.com/codess-aus/AIGenius-GHCP-AINative/blob/main/exercises/02b-squad-framework/README.md) walks through pre-reqs, installing the Squad CLI, initializing a team, and delegating a task to a named specialist.
+Fleet이 한 스프린트를 위한 계약자라면, Squad는 팀에 상시 전문 인력을 채용하는 것에 가깝습니다. 시간이 지날수록 맥락을 축적하며, 일시적으로 병렬 처리량을 늘려야 할 때는 내부적으로 Fleet을 사용할 수도 있습니다.
 
-### Why this maps to cloud-native architecture
+직접 해 보고 싶다면 [실습 02B - `/squad`로 지속적인 팀 구성하기](https://github.com/KYUNGCMIN/AIGenius-GHCP-AINative-KR/blob/main/exercises/02b-squad-framework/README.md)로 이동하세요. 사전 준비 사항, Squad CLI 설치, 팀 초기화, 이름이 있는 전문 에이전트에게 작업 위임하기를 안내합니다.
 
-- **`/fleet` is horizontal scaling for cognitive work.** A cloud-native app scales out stateless compute instances behind a load balancer to absorb load; `/fleet` scales out stateless sub-agents to absorb a backlog.
-- **`/squad` is closer to a long-lived service mesh with persistent state.** Instead of ephemeral pods, you have specialized, addressable agents with their own memory and responsibilities, coordinating with each other.
-- **Wave-based dependency scheduling** inside `/fleet`, run what's unblocked, wait, run the next wave, is conceptually the same DAG scheduling you already know from CI/CD pipelines or a Kubernetes job graph.
+### 클라우드 네이티브 아키텍처와 연결되는 이유
 
-The takeaway: the single-issue loop from this chapter is the "hello world". `/fleet` and `/squad` are how that same loop scales to a real team's backlog without you personally babysitting every single agent session.
+- **`/fleet`은 지적 작업의 수평 확장입니다.** 클라우드 네이티브 앱이 로드 밸런서 뒤에서 상태를 유지하지 않는 컴퓨팅 인스턴스를 늘려 부하를 처리하듯, `/fleet`은 상태를 유지하지 않는 하위 에이전트를 늘려 백로그를 처리합니다.
+- **`/squad`는 상태를 지속적으로 보존하는 장기 실행 서비스 메시와 유사합니다.** 일시적인 파드 대신, 고유한 메모리와 책임을 갖고 개별적으로 지정해 호출할 수 있는 전문 에이전트들이 서로 협업합니다.
+- `/fleet`의 **웨이브 기반 의존성 스케줄링**은 실행 가능한 작업을 처리하고, 완료를 기다린 뒤, 다음 작업 묶음을 실행하는 방식입니다. 개념적으로 CI/CD 파이프라인이나 Kubernetes 작업 그래프에서 사용하는 DAG(방향성 비순환 그래프) 스케줄링과 같습니다.
 
-### The safety model doesn't change
+핵심은 이 장의 단일 이슈 작업 흐름이 "Hello World"에 해당한다는 점입니다. `/fleet`과 `/squad`를 활용하면 모든 에이전트 세션을 일일이 지켜보지 않고도 같은 흐름을 실제 팀의 백로그 규모로 확장할 수 있습니다.
 
-Neither `/fleet` nor `/squad` change the core safety model. Every sub-agent, whether disposable (Fleet) or persistent (Squad), still opens a PR, still cannot merge its own work, and still runs in an isolated sandbox with no production access, all governed by the same GitHub control plane you saw earlier in this chapter. More agents means more parallel proposals for you to review, not less review.
+### 안전 모델은 그대로 유지됩니다
 
-## Reflection Questions
+`/fleet`과 `/squad` 모두 핵심 안전 모델을 바꾸지 않습니다. 일회성인 Fleet 에이전트든 지속적으로 유지되는 Squad 에이전트든, 모든 하위 에이전트는 여전히 PR을 생성하고 자신의 작업을 직접 병합할 수 없으며 운영 환경에 접근할 수 없는 격리된 샌드박스에서 실행됩니다. 이 모든 과정은 이 장에서 살펴본 동일한 GitHub 제어 영역의 관리를 받습니다. 에이전트가 많아진다는 것은 검토할 제안이 병렬로 더 많이 나온다는 뜻이지, 검토가 덜 필요하다는 뜻이 아닙니다.
 
-- What surprised you about how Copilot approached the task?
-- Did it interpret your issue the way you intended?
-- What would you write differently in the issue now that you've seen the result?
-- When would you reach for the Copilot App versus Chat or the CLI in your own work?
+## 돌아보기
 
-## Next Step
+- Copilot이 작업에 접근한 방식 중 의외였던 점은 무엇인가요?
+- 이슈를 여러분의 의도대로 해석했나요?
+- 결과를 확인한 지금, 이슈에서 무엇을 다르게 작성하겠나요?
+- 자신의 업무에서 어떤 경우에 Chat이나 CLI 대신 Copilot App을 선택하겠나요?
 
-Once Copilot has opened a draft PR, move on to [Chapter 3 - Review a Draft PR](chapter-3-review-a-pr.md).
+## 다음 단계
+
+Copilot이 초안 PR을 생성했다면 [3장 - 초안 PR 검토하기](chapter-3-review-a-pr.md)로 이동하세요.

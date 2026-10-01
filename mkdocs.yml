@@ -1,18 +1,19 @@
-site_name: AI Genius Episode 1 - Attendee Guide
-site_description: Attendee companion for the AI-native development loop workshop.
-repo_url: https://github.com/codess-aus/AIGenius-GHCP-AINative
+site_name: AI Genius Episode 1 - 참가자 안내서
+site_description: GitHub Copilot과 함께하는 AI 네이티브 개발 워크숍의 한국어 참가자 안내서입니다.
+repo_url: https://github.com/KYUNGCMIN/AIGenius-GHCP-AINative-KR
 
 nav:
-  - Home: index.md
-  - Chapter 1 - Write an Issue: chapter-1-write-an-issue.md
-  - Chapter 2 - Assign to Copilot: chapter-2-assign-to-copilot.md
-  - Chapter 3 - Review a PR: chapter-3-review-a-pr.md
-  - Chapter 4 - Iterate via Comments: chapter-4-iterate.md
-  - Chapter 5 - Azure and AI: chapter-5-azure-and-ai.md
-  - Resources: resources.md
+  - 홈: index.md
+  - 1장 - 이슈 작성하기: chapter-1-write-an-issue.md
+  - 2장 - Copilot에 할당하기: chapter-2-assign-to-copilot.md
+  - 3장 - PR 검토하기: chapter-3-review-a-pr.md
+  - 4장 - 댓글로 반복 개선하기: chapter-4-iterate.md
+  - 5장 - Azure와 AI: chapter-5-azure-and-ai.md
+  - 참고 자료: resources.md
 
 theme:
   name: material
+  language: ko
   features:
     - navigation.top
     - navigation.sections
@@ -24,14 +25,14 @@ theme:
       accent: amber
       toggle:
         icon: material/weather-night
-        name: Switch to dark mode
+        name: 어두운 모드로 전환
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
       primary: indigo
       accent: amber
       toggle:
         icon: material/weather-sunny
-        name: Switch to light mode
+        name: 밝은 모드로 전환
 
 plugins:
   - search
